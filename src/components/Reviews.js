@@ -18,7 +18,6 @@ class Reviews extends Component {
 }
 
 function mapStateToProps(state){
-    console.log("Current state:", state);
     return {
         reviews: state.reviews
     }
