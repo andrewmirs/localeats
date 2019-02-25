@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import AnimOne from '../animations/anim-one';
 import Reviews from './Reviews';
 
 class Home extends Component {
     render() {
         return (
         <View style={styles.homepage}>
-            <Text>New home screen!</Text>
-            <Reviews />
+         <AnimOne />
+            <View style={styles.text}>
+                <Text>New home screen!</Text>
+            </View>
         </View>
         );
     }
@@ -15,11 +18,14 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
     homepage: {
+        flex: 1,
+        backgroundColor: 'purple',
+    },
+    text: {
         flex: 1, 
         justifyContent: 'center', 
         alignItems: 'center',
-        backgroundColor: 'purple',
-    },
-})
+    }
+});
 
 export default Home;
