@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 
 class AnimOne extends Component {
 
+    state = {
+        redSquare: new Animated.ValueXY(0,0),
+    }
+
     componentWillMount(){
-        // 1. Where does the animation start?
-        this.redSquare = new Animated.ValueXY(0,0);
 
-        // 2. Where will it end?
-        Animated.spring(this.redSquare, {
-            toValue:{x: 150, y: 150}
+        Animated.timing(this.state.redSquare, {
+            toValue:{x: 150, y: 150},
+            duration: 2000,
+            delay: 1000,
+            easing:  Easing.bounce,
         }).start();
-
-        // 3. Which component?
 
     }
 
     render(){
         return(
             <Animated.View
-                style={this.redSquare.getLayout()}
+                style={this.state.redSquare.getLayout()}
             >
                 <View style={styles.square}>
                     <Text>Animation</Text>

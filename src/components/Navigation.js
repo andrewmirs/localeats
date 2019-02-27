@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // 6.2.2
 import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
@@ -20,7 +20,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
-const AppContainer = createAppContainer(
+const HomeAppContainer = createAppContainer(
   createBottomTabNavigator(
     {
       Home: { screen: Home },
@@ -39,4 +39,4 @@ const AppContainer = createAppContainer(
   )
 );
 
-export default AppContainer;
+export default HomeAppContainer;
