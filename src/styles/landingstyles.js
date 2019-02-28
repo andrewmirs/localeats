@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     iconContainer: {
-        backgroundColor: 'white',
+        marginTop: 100,
         width,
         height: width * (9 / 12),
         justifyContent: 'center',
@@ -18,16 +18,17 @@ const styles = StyleSheet.create({
     icon: {
         width: "80%",
         height: "80%",
+        resizeMode: 'contain'
     },
     landingPage: {
-      alignItems: 'center',
-      backgroundColor: 'white',
-      justifyContent: 'center',
-      height,
-      width,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height,
+        width,
     },
     signInButton: {
-        backgroundColor: 'rgb(175,175,175)',
+        backgroundColor: 'white',
         width: '40%',
         height: '20%',
         justifyContent: 'center',
@@ -36,12 +37,12 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     signInText: {
-        color: "white",
+        color: "#b23f2e",
         fontSize: 18,
         margin: 5,
     },
     signUpButton: {
-        backgroundColor: 'pink',
+        backgroundColor: '#b23f2e',
         width: '40%',
         height: '20%',
         justifyContent: 'center',
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     signUpText: {
-        color: 'black',
+        color: 'white',
         fontSize: 18,
     },
     subTitle: {

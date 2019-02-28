@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import styles from '../styles/landingstyles';
-import logo from '../../assets/images/favfood.png';
+import logo from '../../assets/images/localpicks.png';
+import bgImage from '../../assets/images/landing-background.jpg'
 import Signin from './Signin';
 import Signup from './Signup';
+
+    const handleSubmit = (values) => {
+        alert(`form submitting`);
+    }
 
 class Landing extends Component {
 
@@ -14,11 +19,8 @@ class Landing extends Component {
 
     render() {
         return (
-            <View style={styles.landingPage}>
+            <ImageBackground source={bgImage} style={styles.landingPage}>
                 <StatusBar barStyle="light-content" />
-                <View style={styles.title}>
-                    <Text style={styles.titleText}>Local Eats</Text>
-                </View>
                 <View style={styles.iconContainer}>
                     <Image 
                         style={styles.icon}
@@ -34,12 +36,14 @@ class Landing extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={styles.signUpButton}
-                        onPress={() => this.props.navigation.navigate('Signup')}
+                        onPress={() => this.props.navigation.navigate('Signup', {
+                            handleSubmit
+                        })}
                     >
                         <Text style={styles.signUpText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }
@@ -52,6 +56,10 @@ const LandingStack = createStackNavigator(
     },
     {
       initialRouteName: 'Landing',
+      headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false,
+        }
     }
 );
 
