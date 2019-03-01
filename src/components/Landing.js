@@ -7,7 +7,9 @@ import styles from '../styles/landingstyles';
 import logo from '../../assets/images/localpicks.png';
 import bgImage from '../../assets/images/landing-background.jpg'
 import Home from './Home';
+import HomeAppContainer from './Navigation';
 import Signup from './Signup';
+
 
 class Landing extends Component {
 
@@ -97,7 +99,7 @@ class Landing extends Component {
 
 const LandingStack = createStackNavigator(
     {
-        Home,
+        Home: HomeAppContainer,
         Landing,
         Signup
     },

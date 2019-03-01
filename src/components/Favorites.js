@@ -5,7 +5,7 @@ class Profile extends Component {
     render(){
         return(
             <View style={styles.profilepage}>
-                <Text style={styles.font}>This is my Profile</Text>
+                <Text style={styles.font}>These are my favorites!!</Text>
             </View>
         );
     }
@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
         flex: 1, 
         justifyContent: 'center', 
         alignItems: 'center',
-        backgroundColor: '#EB9486',
+        backgroundColor: '#CAE7B9'
     },
     font: {
-        color: 'white'
+        color: '#EB9486'
     }
 })
 
