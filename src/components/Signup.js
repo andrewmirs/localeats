@@ -8,7 +8,16 @@ import styles from '../styles/signupStyles';
 class Signup extends Component {
 
     static navigationOptions = {
-        title: 'Sign Up'
+        title: 'Sign Up',
+        headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            textAlign: 'center',
+        },
     }
 
     handleSubmit = (values) => {
