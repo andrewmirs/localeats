@@ -2,6 +2,12 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
+    btnEye: {
+        position: 'absolute',
+        top: 10,
+        right: 37,
+        zIndex: 2,
+    },
     buttonContainer: {
         flex: 4,
         flexDirection: 'row',
@@ -20,6 +26,25 @@ const styles = StyleSheet.create({
         height: "80%",
         resizeMode: 'contain'
     },
+    input: {
+        width: width - 55,
+        height: 45,
+        borderRadius: 25,
+        fontSize: 16,
+        paddingLeft: 45,
+        backgroundColor: 'rgba(0, 0, 0, 0.35)',
+        color: 'rgba(255, 255, 255, 0.7)',
+        marginHorizontal: 25,
+    },
+    inputContainer: {
+        marginTop: 10,
+    },
+    inputIcon: {
+        position: 'absolute',
+        top: 10,
+        left: 37,
+        zIndex: 2,
+    },
     landingPage: {
         flex: 1,
         alignItems: 'center',
@@ -28,31 +53,23 @@ const styles = StyleSheet.create({
         width,
     },
     signInButton: {
-        backgroundColor: 'white',
-        width: '40%',
-        height: '20%',
+        width: width - 55,
+        height: 45,
+        borderRadius: 25,
+        backgroundColor: 'rgba(255, 255, 255, 1.0)',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 8,
-        borderRadius: 2,
+        marginTop: 20,
     },
     signInText: {
         color: "#b23f2e",
         fontSize: 18,
         margin: 5,
-    },
-    signUpButton: {
-        backgroundColor: '#b23f2e',
-        width: '40%',
-        height: '20%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 8,
-        borderRadius: 2,
+        textAlign: 'center',
     },
     signUpText: {
-        color: 'white',
-        fontSize: 18,
+        color: '#b23f2e',
+        fontSize: 14,
+        textDecorationLine: 'underline',
     },
     subTitle: {
         flex: 1,
