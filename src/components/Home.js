@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AnimOne from '../animations/anim-one';
 import Reviews from './Reviews';
 
 class Home extends Component {
     render() {
         return (
-        <View style={styles.homepage}>
-         <AnimOne />
-            <View style={styles.text}>
-                <Text>New home screen!</Text>
-            </View>
-        </View>
+                <View style={styles.homepage}>
+                    <View style={styles.text}>
+                        <Text>New home screen!</Text>
+                    </View>
+                </View>
         );
     }
 }

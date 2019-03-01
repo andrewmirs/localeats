@@ -1,17 +1,37 @@
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const renderField =({ label, keyboardType, name }) => {
+const renderField =({ placeholder, keyboardType, name, secureTextEntry }) => {
     return (
-        <View style={{ flexDirection: 'row', height: 50, alignItems: 'center' }}>
-            <Text style={{ fontSize: 14, fontWeight: 'bold', width: 80 }}>{label}</Text>
+        <View style={styles.inputContainer}>
             <TextInput 
-                style={{ borderColor: 'steelblue', borderWidth: 1, height: 37, width: 220, padding: 5 }} 
+                style={styles.input} 
                 keyboardType={keyboardType}
+                placeholder={placeholder}
+                name={name}
+                secureTextEntry={secureTextEntry}
+                placeholderTextColor= "rgba(189, 195, 199, 0.7)"
             >
             </TextInput>
         </View>
     );
 };
+
+const { height, width } = Dimensions.get('window');
+const styles = StyleSheet.create({
+    input: {
+        borderBottomColor: 'rgba(191, 191, 191, 1)',
+        borderBottomWidth: 1,
+        height: 50,
+        width: width - 55,
+        padding: 5,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 15,
+    }
+});
+
 
 export default renderField;

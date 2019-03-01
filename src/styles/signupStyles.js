@@ -1,28 +1,25 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     formContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        margin: 40,
-        justifyContent: 'flex-start',
-    },
-    formTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        width: 200,
-        textAlign: 'center',
-        margin: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     submitButton: {
-        backgroundColor: 'purple',
-        color: 'white',
-        fontSize: 16,
-        height: 37,
-        width: 200,
+        width: width - 55,
+        height: 45,
+        borderRadius: 25,
+        backgroundColor: '#b23f2e',
+        justifyContent: 'center',
+        marginTop: 40,
+    },
+    submitText: {
+        color: "rgba(255, 255, 255, 1.0)",
+        fontSize: 18,
+        margin: 5,
         textAlign: 'center',
-        padding: 10,
-    }
+    },
 });
 
 export default styles;

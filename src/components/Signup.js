@@ -7,20 +7,27 @@ import styles from '../styles/signupStyles';
 
 class Signup extends Component {
 
+    static navigationOptions = {
+        title: 'Sign Up'
+    }
+
+    handleSubmit = (values) => {
+        alert(`form submitting with values: ${values}`);
+    }
+
     render() {
-        const { handleSubmit } = this.props.navigation;
         return (
             <View style={styles.formContainer}>
-                <Text style={styles.formTitle}>Register</Text>
-                <Field keyboardType="default" label="Full Name: " component={renderField} name="Fullname" />
-                <Field keyboardType="default" label="Display Name: " component={renderField} name="Displayname" />
-                <Field keyboardType="email-address" label="Email: " component={renderField} name="Email" />
-                <Field keyboardType="default" label="Password: " component={renderField} name="Password" secureTextEntry={true} />
-                <Field keyboardType="default" label="Confirm Password: " component={renderField} name="Confirmpassword" secureTextEntry={true} />
-                <TouchableOpacity onPress={this.handleSubmit} style={{ margin: 10, alignItems: 'center'}}>
-                    <Text style={styles.submitButton}>
-                        Submit
-                    </Text>
+                <Field keyboardType="default" placeholder="First Name" component={renderField} name="Fullname" />
+                <Field keyboardType="default" placeholder="Last Name" component={renderField} name="Displayname" />
+                <Field keyboardType="email-address" placeholder="Email" component={renderField} name="Email" />
+                <Field keyboardType="default" placeholder="Password" component={renderField} name="Password" secureTextEntry={true} />
+                <Field keyboardType="default" placeholder="Confirm Password" component={renderField} name="Confirmpassword" secureTextEntry={true} />
+                <TouchableOpacity 
+                    onPress={this.handleSubmit} 
+                    style={styles.submitButton}
+                >
+                    <Text style={styles.submitText}>Get Started</Text>
                 </TouchableOpacity>
             </View>
         );
