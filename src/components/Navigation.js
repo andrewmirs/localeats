@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; // 6.2.2
+import { Ionicons } from '@expo/vector-icons'; // 6.2.2
 import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import Home from './Home';
 import Profile from './Profile';
