@@ -3,23 +3,31 @@ import { StyleSheet, Text, View } from 'react-native';
 import Reviews from './Reviews';
 
 class Home extends Component {
+
     render() {
         return (
-        <View style={styles.homepage}>
-            <Text>New home screen!</Text>
-            <Reviews />
-        </View>
+                <View style={styles.homepage}>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>New home screen!</Text>
+                    </View>
+                </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     homepage: {
+        flex: 1,
+        backgroundColor: '#F3DE8A',
+    },
+    text: {
+        color: '#7E7F9A',
+    },
+    textContainer: {
         flex: 1, 
         justifyContent: 'center', 
         alignItems: 'center',
-        backgroundColor: 'purple',
-    },
-})
+    }
+});
 
 export default Home;

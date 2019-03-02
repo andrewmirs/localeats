@@ -1,29 +1,31 @@
-import React, { Component} from 'react';
-import { Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // 6.2.2
+import React, { Component } from 'react';
+import { Feather } from '@expo/vector-icons'; // 6.2.2
 import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import Favorites from './Favorites';
 import Home from './Home';
 import Profile from './Profile';
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
-  let IconComponent = Ionicons;
+  let IconComponent = Feather;
   let iconName;
   if (routeName === 'Home') {
-    iconName = `ios-home`;
-    // We want to add badges to home tab icon
+    iconName = `home`;
+  } else if (routeName === 'Favorites') {
+    iconName = `star`;
   } else if (routeName === 'Profile') {
-    iconName = `ios-contact`;
+    iconName = `user`;
   }
 
   // You can return any component that you like here!
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
-const AppContainer = createAppContainer(
+const HomeAppContainer = createAppContainer(
   createBottomTabNavigator(
     {
       Home: { screen: Home },
+      Favorites: { screen: Favorites },
       Profile: { screen: Profile },
     },
     {
@@ -32,11 +34,11 @@ const AppContainer = createAppContainer(
           getTabBarIcon(navigation, focused, tintColor),
       }),
       tabBarOptions: {
-        activeTintColor: 'tomato',
+        activeTintColor: "#b23f2e",
         inactiveTintColor: 'gray',
       },
     }
   )
 );
 
-export default AppContainer;
+export default HomeAppContainer;
