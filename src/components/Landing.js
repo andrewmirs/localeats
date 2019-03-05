@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, ImageBackground, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import { auth, databse, f } from '../../config/config';
 import Icon from '@expo/vector-icons/EvilIcons';
 import IosIcon from '@expo/vector-icons/Ionicons';
 import styles from '../styles/landingstyles';
@@ -13,10 +14,10 @@ import Signup from './Signup';
 
 class Landing extends Component {
 
-   state = {
-       showPass: true,
-       press: false
-   }
+    state = {
+        showPass: true,
+        press: false,
+    }
 
    showPass = () => {
        if(this.state.press == false) {
@@ -72,7 +73,7 @@ class Landing extends Component {
                         style={styles.btnEye}
                         onPress={this.showPass}
                     >
-                        <IosIcon name={this.state.press == false ? 'ios-eye' : 'ios-eye-off'} size={26} color={'rgba(255, 255, 255, 0.6)'} />
+                        <IosIcon name={this.state.press == false ? 'ios-eye-off' : 'ios-eye'} size={26} color={'rgba(255, 255, 255, 0.6)'} />
                     </TouchableOpacity>
                 </View>
 
@@ -104,8 +105,8 @@ const LandingStack = createStackNavigator(
         Signup
     },
     {
-      initialRouteName: 'Landing',
-    }
+        initialRouteName: 'Landing',
+    },
 );
 
 const LandingContainer = createAppContainer(LandingStack);

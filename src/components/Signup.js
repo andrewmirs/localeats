@@ -7,6 +7,13 @@ import styles from '../styles/signupStyles';
 
 class Signup extends Component {
 
+    registerUser = ( email, password ) => {
+        console.log(email, password);
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((userObj) => console.log(email, password, userObj))
+        .catch((error) => console.log('Error logging in:', error))
+   }
+
     static navigationOptions = {
         title: 'Sign Up',
         headerStyle: {

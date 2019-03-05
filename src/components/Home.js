@@ -4,6 +4,10 @@ import Reviews from './Reviews';
 
 class Home extends Component {
 
+    static navigationOptions = {
+        header: null,
+    }
+
     render() {
         return (
                 <View style={styles.homepage}>
