@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { auth, databse, f } from '../../config/config';
 import renderField from './Field';
 import styles from '../styles/signupStyles';
 
