@@ -26,8 +26,8 @@ const validate = values => {
     
     if (!values.password) {
         errors.password = 'Required'
-    } else if (values.password.length < 2 || values.password.length > 20) {
-        errors.password = 'Must be between 2 and 20 characters'
+    } else if (values.password.length < 6 || values.password.length > 20) {
+        errors.password = 'Must be between 6 and 20 characters'
     }
 
     if (!values.confirmpassword) {
