@@ -23,7 +23,7 @@ class Signup extends Component {
         console.log('Im in the register function:', firstname, lastname, email, password)
         f.auth().createUserWithEmailAndPassword(email, password)
         .then((res) => {
-            firebase.database().ref('users/' + res.user.uid).set({
+            f.database().ref('users/' + res.user.uid).set({
                 firstname: firstname,
                 lastname: lastname,
                 email: email,

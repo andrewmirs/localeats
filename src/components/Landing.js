@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Image, ImageBackground, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createAppContainer, createStackNavigator, createSwitchNavigator  } from "react-navigation";
 import { auth, databse, f } from '../../config/config';
 import Icon from '@expo/vector-icons/EvilIcons';
 import IosIcon from '@expo/vector-icons/Ionicons';
 import styles from '../styles/landingStyles';
 import logo from '../../assets/images/localpicks.png';
-import bgImage from '../../assets/images/landing-background.jpg'
+import bgImage from '../../assets/images/landing-background.jpg';
+import AuthLoading from './AuthLoading';
 import Home from './Home';
 import HomeAppContainer from './Navigation';
 import Signup from './Signup';
@@ -31,7 +32,7 @@ class Landing extends Component {
                 that.setState({ 
                     loggedin: true
                 });
-                that.props.navigation.navigate('Home')
+                that.props.navigation.navigate('App')
                 console.log('Logged in:', user);
             } else {
                 that.setState({ 
@@ -135,13 +136,16 @@ class Landing extends Component {
     }
 }
 
-const LandingStack = createStackNavigator({
-        Home: {
-            screen: HomeAppContainer,
-            navigationOptions: {
-                header: null,
-            }
-        },
+const AppStack = createStackNavigator({
+    Home: {
+        screen: HomeAppContainer,
+        navigationOptions: {
+            header: null,
+        }
+    },
+});
+
+const AuthStack = createStackNavigator({
         Landing:{
             screen: Landing,
             navigationOptions: {
@@ -157,6 +161,12 @@ const LandingStack = createStackNavigator({
     },
 );
 
-const LandingContainer = createAppContainer(LandingStack);
+const LandingContainer = createAppContainer(createSwitchNavigator(
+    {
+        AuthLoading: AuthLoading,
+        App: AppStack,
+        Auth: AuthStack,
+    }
+));
 
 export default LandingContainer;
