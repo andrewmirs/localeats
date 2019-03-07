@@ -5,40 +5,50 @@ import Favorites from './Favorites';
 import Home from './Home';
 import Profile from './Profile';
 
-const getTabBarIcon = (navigation, focused, tintColor) => {
-  const { routeName } = navigation.state;
-  let IconComponent = Feather;
-  let iconName;
-  if (routeName === 'Home') {
-    iconName = `home`;
-  } else if (routeName === 'Favorites') {
-    iconName = `star`;
-  } else if (routeName === 'Profile') {
-    iconName = `user`;
-  }
+let IconComponent = Feather;
 
-  // You can return any component that you like here!
-  return <IconComponent name={iconName} size={25} color={tintColor} />;
-};
-
-const HomeAppContainer = createAppContainer(
-  createBottomTabNavigator(
-    {
-      Home: { screen: Home },
-      Favorites: { screen: Favorites },
-      Profile: { screen: Profile },
-    },
-    {
-      defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused, tintColor }) =>
-          getTabBarIcon(navigation, focused, tintColor),
-      }),
+const TabNavigator = createBottomTabNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarLabel: "Home",
       tabBarOptions: {
-        activeTintColor: "#b23f2e",
-        inactiveTintColor: 'gray',
+          activeTintColor: '#b23f2e',
+          inactiveTintColor: 'gray',
       },
-    }
-  )
-);
+      tabBarIcon: ({tintColor})=>(
+        <IconComponent name={`home`} size={25} color={tintColor} />
+      )
+    },
+  },
+  Favorites: {
+    screen: Favorites,
+    navigationOptions: {
+      tabBarLabel: "Favorites",
+      tabBarOptions: {
+          activeTintColor: '#b23f2e',
+          inactiveTintColor: 'gray',
+      },
+      tabBarIcon: ({tintColor})=>(
+        <IconComponent name={`star`} size={25} color={tintColor} />
+      )
+    },
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarLabel: "Profile",
+      tabBarOptions: {
+          activeTintColor: '#b23f2e',
+          inactiveTintColor: 'gray',
+      },
+      tabBarIcon: ({tintColor})=>(
+        <IconComponent name={`user`} size={25} color={tintColor} />
+      )
+    },
+  },
+});
+
+const HomeAppContainer = createAppContainer(TabNavigator);
 
 export default HomeAppContainer;

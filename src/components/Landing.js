@@ -4,7 +4,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import { auth, databse, f } from '../../config/config';
 import Icon from '@expo/vector-icons/EvilIcons';
 import IosIcon from '@expo/vector-icons/Ionicons';
-import styles from '../styles/landingstyles';
+import styles from '../styles/landingStyles';
 import logo from '../../assets/images/localpicks.png';
 import bgImage from '../../assets/images/landing-background.jpg'
 import Home from './Home';
@@ -12,30 +12,63 @@ import HomeAppContainer from './Navigation';
 import Signup from './Signup';
 
 
+
 class Landing extends Component {
-    
-    state = {
-        showPass: true,
-        press: false,
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            showPass: true,
+            press: false,
+            loggedin: false,
+            email: 'testemail@gmail.com',
+            password: 'fakepassword',
+        }
+
+        const that = this;
+        f.auth().onAuthStateChanged(function(user) {
+            if(user){
+                that.setState({ 
+                    loggedin: true
+                });
+                that.props.navigation.navigate('Home')
+                console.log('Logged in:', user);
+            } else {
+                that.setState({ 
+                    loggedin: false
+                });
+                console.log('Logged out!');
+            }
+        });
     }
 
-   showPass = () => {
-       if(this.state.press == false) {
+    signInUser = async(email, password) => {
+
+        if(email !== '' && password !== ''){
+            try {
+                let user = await auth.signInWithEmailAndPassword(email, password);
+                console.log(user);
+            } catch(err) {
+                console.log(error);
+            }
+        } else {
+            alert('Missing email or password');
+        }
+    }
+
+    showPass = () => {
+        if(this.state.press == false) {
             this.setState({
                 showPass: false, 
                 press: true
             });
-       } else {
+        } else {
             this.setState({
                 showPass: true, 
                 press: false
             });
-       }
-   }
-
-   static navigationOptions = {
-        header: null,
-   }
+        }
+    }
 
     render() {
         return (
@@ -56,6 +89,8 @@ class Landing extends Component {
                         placeholder='Email'
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
+                        onChangeText={(text) => this.setState({email: text})}
+                        value={this.state.email}
                     />
                 </View>
 
@@ -68,6 +103,8 @@ class Landing extends Component {
                         secureTextEntry={this.state.showPass}
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
+                        onChangeText={(text) => this.setState({password: text})}
+                        value={this.state.password}
                     />
                     <TouchableOpacity 
                         style={styles.btnEye}
@@ -79,7 +116,7 @@ class Landing extends Component {
 
                 <TouchableOpacity 
                     style={styles.signInButton}
-                    onPress={() => this.props.navigation.navigate('Home')}
+                    onPress={() => this.signInUser(this.state.email, this.state.password)}
                 >
                     <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
@@ -98,11 +135,22 @@ class Landing extends Component {
     }
 }
 
-const LandingStack = createStackNavigator(
-    {
-        Home: HomeAppContainer,
-        Landing,
-        Signup
+const LandingStack = createStackNavigator({
+        Home: {
+            screen: HomeAppContainer,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        Landing:{
+            screen: Landing,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        Signup: {
+            screen: Signup
+        }
     },
     {
         initialRouteName: 'Landing',
