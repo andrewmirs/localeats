@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { auth, databse, f } from '../../config/config';
-import renderField from './Field';
-import styles from '../styles/signupStyles';
+import SignUpForm from './SignupForm';
 
 
 class Signup extends Component {
-
-    registerUser = ( email, password ) => {
-        console.log(email, password);
-        auth.createUserWithEmailAndPassword(email, password)
-        .then((userObj) => console.log(email, password, userObj))
-        .catch((error) => console.log('Error logging in:', error))
-   }
 
     static navigationOptions = {
         title: 'Sign Up',
@@ -28,31 +19,27 @@ class Signup extends Component {
         },
     }
 
-    handleSubmit = (values) => {
-        alert(`form submitting with values: ${values}`);
-    }
+    registerUser = ( email, password, firstname, lastname ) => {
+        console.log('Im in the register function:', firstname, lastname, email, password)
+        f.auth().createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+            firebase.database().ref('users/' + res.user.uid).set({
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+            })
+        }).catch((error) => {
+            console.log(error);
+        });
+   }
 
-    render() {
+    render(){
         return (
-            <View style={styles.formContainer}>
-                <Field keyboardType="default" placeholder="First Name" component={renderField} name="Fullname" />
-                <Field keyboardType="default" placeholder="Last Name" component={renderField} name="Displayname" />
-                <Field keyboardType="email-address" placeholder="Email" component={renderField} name="Email" />
-                <Field keyboardType="default" placeholder="Password" component={renderField} name="Password" secureTextEntry={true} />
-                <Field keyboardType="default" placeholder="Confirm Password" component={renderField} name="Confirmpassword" secureTextEntry={true} />
-                <TouchableOpacity 
-                    onPress={this.handleSubmit} 
-                    style={styles.submitButton}
-                >
-                    <Text style={styles.submitText}>Get Started</Text>
-                </TouchableOpacity>
+            <View>
+                <SignUpForm  register={this.registerUser} />
             </View>
         );
     }
 }
 
-const SignupForm = reduxForm({
-    form: 'signup'
-})(Signup);
-
-export default SignupForm;
+export default Signup;
