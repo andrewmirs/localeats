@@ -1,18 +1,23 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const renderField =({ placeholder, keyboardType, name, secureTextEntry }) => {
+const renderField =({ placeholder, keyboardType, meta: { error, touched }, name, secureTextEntry, input: { onChange, ...restInput } }) => {
     return (
-        <View style={styles.inputContainer}>
-            <TextInput 
-                style={styles.input} 
-                keyboardType={keyboardType}
-                placeholder={placeholder}
-                name={name}
-                secureTextEntry={secureTextEntry}
-                placeholderTextColor= "rgba(189, 195, 199, 0.7)"
-            >
-            </TextInput>
+        <View>
+            <View style={styles.inputContainer}>
+                <TextInput 
+                    style={styles.input} 
+                    keyboardType={keyboardType}
+                    placeholder={placeholder}
+                    name={name}
+                    secureTextEntry={secureTextEntry}
+                    placeholderTextColor= "rgba(189, 195, 199, 0.7)"
+                    onChangeText={onChange} 
+                    {...restInput}
+                >
+                </TextInput>
+            </View>
+            {touched && (error && <Text style={{ color: '#ed4747' }}>{error}</Text>)}
         </View>
     );
 };
