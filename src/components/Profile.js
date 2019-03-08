@@ -6,8 +6,39 @@ import User from './User';
 
 class Profile extends Component {
 
-    static navigationOptions = {
-        header: null,
+    constructor(props){
+        super(props);
+        this.state={
+            firstname: '',
+            lastname: '',
+            userId: '',
+            loggedin: false,
+        }
+    }
+
+    componentDidMount = () => {
+        const that = this;
+        f.auth().onAuthStateChanged(function(user) {
+            if(user){
+                that.fetchUserInfo(user.uid)
+            } else {
+                console.log('No user data! Either not logged in or database error')
+            }
+        });
+    }
+
+    fetchUserInfo = (userId) => {
+        var that = this;
+        database.ref('users').child(userId).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+                that.setState({
+                    firstname: data.firstname,
+                    lastname: database.lastname,
+                    userId: userId,
+                    loggedin: true,
+                });
+        });
     }
 
     signOutUser = () => {
@@ -23,7 +54,7 @@ class Profile extends Component {
     render(){
         return(
             <View style={styles.profilepage}>
-                <Text style={styles.font}>This is my Profile</Text>
+                <Text style={styles.font}>This is {this.state.firstname}'s Profile</Text>
                 <User />
                 <TouchableOpacity 
                     style={styles.signOutButton}

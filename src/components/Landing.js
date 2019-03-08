@@ -32,8 +32,7 @@ class Landing extends Component {
                 that.setState({ 
                     loggedin: true
                 });
-                that.props.navigation.navigate('App')
-                console.log('Logged in:', user);
+                that.props.navigation.navigate('App');
             } else {
                 that.setState({ 
                     loggedin: false
