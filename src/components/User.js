@@ -11,7 +11,7 @@ class User extends Component {
     }
 
     render(){
-        console.log("PROPS!!!!!:", this.props);
+           console.log(this.props)
         return(
             <View>
                 <Text>User info goes here...</Text>
