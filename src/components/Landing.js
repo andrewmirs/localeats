@@ -13,7 +13,6 @@ import HomeAppContainer from './Navigation';
 import Signup from './Signup';
 
 
-
 class Landing extends Component {
 
     constructor(props) {
@@ -32,8 +31,7 @@ class Landing extends Component {
                 that.setState({ 
                     loggedin: true
                 });
-                that.props.navigation.navigate('App')
-                console.log('Logged in:', user);
+                that.props.navigation.navigate('App');
             } else {
                 that.setState({ 
                     loggedin: false
