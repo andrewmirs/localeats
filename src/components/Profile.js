@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { auth, databse, f } from '../../config/config';
+import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
+import User from './User';
 
 class Profile extends Component {
 
@@ -23,6 +24,7 @@ class Profile extends Component {
         return(
             <View style={styles.profilepage}>
                 <Text style={styles.font}>This is my Profile</Text>
+                <User />
                 <TouchableOpacity 
                     style={styles.signOutButton}
                     onPress={this.signOutUser}

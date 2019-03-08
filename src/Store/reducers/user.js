@@ -1,7 +1,8 @@
 export default function(state={}, action){
     switch(action.type){
-        case 'GET_REVIEWS':
-            return { ...state, reviews: action.payload }
+        case 'CURRENT_USER':
+            return { ...state, user: action.payload };
+            break;
         default:
             return state;
     }
