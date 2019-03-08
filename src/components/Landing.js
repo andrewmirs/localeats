@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, ImageBackground, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createAppContainer, createStackNavigator, createSwitchNavigator  } from "react-navigation";
-import { auth, databse, f } from '../../config/config';
+import { auth, database, f } from '../../config/config';
 import Icon from '@expo/vector-icons/EvilIcons';
 import IosIcon from '@expo/vector-icons/Ionicons';
 import styles from '../styles/landingStyles';
@@ -22,8 +22,8 @@ class Landing extends Component {
             showPass: true,
             press: false,
             loggedin: false,
-            email: 'testemail@gmail.com',
-            password: 'fakepassword',
+            email: 'andrewmirs@gmail.com',
+            password: 'password',
         }
 
         const that = this;

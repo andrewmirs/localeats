@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import reviews from './reviews';
+import user from './user';
 
 const rootReducer = combineReducers({
     form: formReducer,
-    reviews
+    user
 });
 
 export default rootReducer;

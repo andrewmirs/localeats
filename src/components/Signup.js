@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { auth, databse, f } from '../../config/config';
+import { auth, database, f } from '../../config/config';
 import SignUpForm from './SignupForm';
 
 
