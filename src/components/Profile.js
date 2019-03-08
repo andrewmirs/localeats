@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
 import User from './User';
@@ -53,15 +53,18 @@ class Profile extends Component {
 
     render(){
         return(
-            <View style={styles.profilepage}>
-                <Text style={styles.font}>This is {this.state.firstname}'s Profile</Text>
-                <User />
-                <TouchableOpacity 
-                    style={styles.signOutButton}
-                    onPress={this.signOutUser}
-                >
-                    <Text style={styles.signOutText}>Sign Out</Text>
-                </TouchableOpacity>
+            <View style={{flex: 1}}>
+                <View style={{ height: 70, padding: 30, backgroundColor: 'white', borderColor: 'lightgrey', borderBottomWidth: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{paddingTop: 10}}>Profile</Text>
+                </View>
+                <View style={styles.profileInfoContainer}>
+                    <Image source={{ uri: 'https://api.adorable.io/avatars/285/test@user.m.png' }} style={styles.picture} />
+                    <View style={{ marginRight: 10 }}>
+                        <Text>{this.state.firstname}</Text>
+                        <Text>@username</Text>
+                        <Text>Costa Mesa, CA</Text>
+                    </View>
+                </View>
             </View>
         );
     }

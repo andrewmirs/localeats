@@ -5,11 +5,24 @@ const styles = StyleSheet.create({
     font: {
         color: 'white'
     },
+    profileInfoContainer: {
+        justifyContent: 'space-evenly', 
+        alignItems: 'center', 
+        flexDirection: 'row', 
+        paddingVertical: 10
+    },
     profilepage: {
         flex: 1, 
-        justifyContent: 'center', 
-        alignItems: 'center',
         backgroundColor: '#EB9486',
+        borderColor: 'lightgrey',
+        padding: 30,
+        height: 70
+    },
+    picture: {
+        marginLeft: 10,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
     },
     signOutButton: {
         width: width - 55,
