@@ -13,7 +13,6 @@ import HomeAppContainer from './Navigation';
 import Signup from './Signup';
 
 
-
 class Landing extends Component {
 
     constructor(props) {

@@ -18,6 +18,12 @@ const validate = values => {
         errors.lastname = 'Must be between 2 and 20 characters'
     }  
 
+    if (!values.username) {
+        errors.username = 'Required'
+    } else if (values.username.length < 3 || values.username.length > 20) {
+        errors.username = 'Must be between 3 and 20 characters'
+    }  
+
     if (!values.email) {
         errors.email = 'Required'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -44,7 +50,7 @@ class Signup extends Component {
 
     submit = newUser => {
         const { register } = this.props;
-        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname );  
+        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.username );  
     }
 
     render() {
@@ -54,13 +60,15 @@ class Signup extends Component {
                 <View style={styles.formContainer}>
                     <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" />
                     <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" />
-                    <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" />
+                    <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none"/>
+                    <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none"/>
                     <Field 
                         keyboardType="default" 
                         placeholder="Password" 
                         component={renderField} 
                         name="password" 
                         secureTextEntry={true}
+                        autoCapitalize="none"
                     />
                     <Field 
                         keyboardType="default" 
@@ -68,6 +76,7 @@ class Signup extends Component {
                         component={renderField} 
                         name="confirmpassword" 
                         secureTextEntry={true}
+                        autoCapitalize="none"
                     />
                     <TouchableOpacity 
                         onPress={handleSubmit(this.submit)} 

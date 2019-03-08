@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const renderField =({ placeholder, keyboardType, meta: { error, touched }, name, secureTextEntry, input: { onChange, ...restInput } }) => {
+const renderField =({ placeholder, keyboardType, meta: { error, touched }, name, secureTextEntry, input: { onChange, ...restInput }, autoCapitalize }) => {
     return (
         <View>
             <View style={styles.inputContainer}>
@@ -13,6 +13,7 @@ const renderField =({ placeholder, keyboardType, meta: { error, touched }, name,
                     secureTextEntry={secureTextEntry}
                     placeholderTextColor= "rgba(189, 195, 199, 0.7)"
                     onChangeText={onChange} 
+                    autoCapitalize={autoCapitalize}
                     {...restInput}
                 >
                 </TextInput>

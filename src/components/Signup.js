@@ -19,14 +19,17 @@ class Signup extends Component {
         },
     }
 
-    registerUser = ( email, password, firstname, lastname ) => {
+    registerUser = ( email, password, firstname, lastname, username ) => {
         console.log('Im in the register function:', firstname, lastname, email, password)
+        let un = username.toLowerCase();
         f.auth().createUserWithEmailAndPassword(email, password)
         .then((res) => {
             f.database().ref('users/' + res.user.uid).set({
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                avatar: 'https://api.adorable.io/avatars/285/test@user.m.png',
+                username: `@${un}`,
             })
         }).catch((error) => {
             console.log(error);
