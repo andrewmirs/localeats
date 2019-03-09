@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import renderField from './Field';
 import styles from '../styles/signupStyles';
 
@@ -58,10 +58,10 @@ class Signup extends Component {
         return (
             <ScrollView keyboardShouldPersistTaps={'handled'}>
                 <View style={styles.formContainer}>
-                    <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" />
-                    <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" />
-                    <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none"/>
-                    <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none"/>
+                    <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
+                    <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
+                    <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
+                    <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none" customStyles={fieldStyles.input} />
                     <Field 
                         keyboardType="default" 
                         placeholder="Password" 
@@ -69,6 +69,7 @@ class Signup extends Component {
                         name="password" 
                         secureTextEntry={true}
                         autoCapitalize="none"
+                        customStyles={fieldStyles.input} 
                     />
                     <Field 
                         keyboardType="default" 
@@ -77,6 +78,7 @@ class Signup extends Component {
                         name="confirmpassword" 
                         secureTextEntry={true}
                         autoCapitalize="none"
+                        customStyles={fieldStyles.input} 
                     />
                     <TouchableOpacity 
                         onPress={handleSubmit(this.submit)} 
@@ -89,6 +91,17 @@ class Signup extends Component {
         );
     }
 }
+
+const { height, width } = Dimensions.get('window');
+const fieldStyles = StyleSheet.create({
+    input: {
+        borderBottomColor: 'rgba(191, 191, 191, 1)',
+        borderBottomWidth: 1,
+        height: 50,
+        width: width - 55,
+        padding: 5,
+    },
+});
 
 const SignupForm = reduxForm({
     form: 'signup',

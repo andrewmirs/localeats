@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import renderField from './Field';
 import styles from '../styles/profileStyles';
@@ -39,16 +39,15 @@ class EditProfile extends Component {
         return(
             <View style={{ alignItems: 'center', justifyContent: 'center',paddingTop: 20}}>
                 <Text>Edit Profile</Text>
-                {/* <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" />
-                <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" />
-                <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" />
-                
+                <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
+                <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
+                <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
                 <TouchableOpacity 
                         onPress={handleSubmit(this.submit)} 
                         style={styles.signOutButton}
                     >
                         <Text style={styles.signOutText}>Accept</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={this.props.cancelEdit}
                     style={styles.signOutButton}
@@ -60,6 +59,17 @@ class EditProfile extends Component {
         );
     }
 }
+
+const { height, width } = Dimensions.get('window');
+const fieldStyles = StyleSheet.create({
+    input: {
+        borderBottomColor: 'darkgray',
+        borderBottomWidth: 1,
+        height: 50,
+        width: width - 55,
+        padding: 5,
+    },
+});
     
 const EditForm = reduxForm({
     form: 'editProfile',

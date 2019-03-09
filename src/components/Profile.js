@@ -77,7 +77,7 @@ class Profile extends Component {
         this.setState({
             editProfile: false,
         })
-        this.fetchUserInfo();
+        this.fetchUserInfo(this.state.userId);
     }
 
     render(){
