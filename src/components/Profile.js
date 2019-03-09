@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
-import User from './User';
+import EditProfile from './EditProfile';
 
 class Profile extends Component {
 
     constructor(props){
         super(props);
         this.state={
-            avatar: '',
+            avatar: 'https://api.adorable.io/avatars/285/test@user.r.png',
             firstname: '',
             lastname: '',
             userId: '',
             username: '',
             loggedin: false,
+            editProfile: false,
         }
     }
 
@@ -55,6 +56,30 @@ class Profile extends Component {
         }); 
     }
 
+    editProfile = () => {
+        this.setState({
+            editProfile: true,
+        })
+    }
+
+    cancelEdit = () => {
+        this.setState({
+            editProfile: false,
+        })
+    }
+
+    updateProfile = (firstname, lastname, username) => {
+
+        var un = username.toLowerCase();
+        database.ref('users').child(this.state.userId).child('firstname').set(firstname);
+        database.ref('users').child(this.state.userId).child('lastname').set(lastname);
+        database.ref('users').child(this.state.userId).child('username').set(`@${un}`);
+        this.setState({
+            editProfile: false,
+        })
+        this.fetchUserInfo();
+    }
+
     render(){
         return(
             <View style={styles.profilepage}>
@@ -69,19 +94,24 @@ class Profile extends Component {
                         <Text>Costa Mesa, CA</Text>
                     </View>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity 
-                        style={styles.signOutButton}
-                    >
-                        <Text style={styles.signOutText}>Edit Profile</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                        style={styles.signOutButton}
-                        onPress={this.signOutUser}
-                    >
-                        <Text style={styles.signOutText}>Sign Out</Text>
-                    </TouchableOpacity>
-                </View>
+                { this.state.editProfile == true ? (
+                    <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} />
+                ) : (
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity 
+                            style={styles.signOutButton}
+                            onPress={this.editProfile}
+                        >
+                            <Text style={styles.signOutText}>Edit Profile</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.signOutButton}
+                            onPress={this.signOutUser}
+                        >
+                            <Text style={styles.signOutText}>Sign Out</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}  
             </View>
         );
     }
