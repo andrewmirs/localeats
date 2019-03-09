@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Image, ImageBackground, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createAppContainer, createStackNavigator, createSwitchNavigator  } from "react-navigation";
+import { auth, database, f } from '../../config/config';
 import Icon from '@expo/vector-icons/EvilIcons';
 import IosIcon from '@expo/vector-icons/Ionicons';
-import styles from '../styles/landingstyles';
+import styles from '../styles/landingStyles';
 import logo from '../../assets/images/localpicks.png';
-import bgImage from '../../assets/images/landing-background.jpg'
+import bgImage from '../../assets/images/landing-background.jpg';
+import AuthLoading from './AuthLoading';
 import Home from './Home';
 import HomeAppContainer from './Navigation';
 import Signup from './Signup';
@@ -13,28 +15,59 @@ import Signup from './Signup';
 
 class Landing extends Component {
 
-   state = {
-       showPass: true,
-       press: false
-   }
+    constructor(props) {
+        super(props)
+        this.state = {
+            showPass: true,
+            press: false,
+            loggedin: false,
+            email: 'andrewmirs@gmail.com',
+            password: 'password',
+        }
 
-   showPass = () => {
-       if(this.state.press == false) {
+        const that = this;
+        f.auth().onAuthStateChanged(function(user) {
+            if(user){
+                that.setState({ 
+                    loggedin: true
+                });
+                that.props.navigation.navigate('App');
+            } else {
+                that.setState({ 
+                    loggedin: false
+                });
+                console.log('Logged out!');
+            }
+        });
+    }
+
+    signInUser = async(email, password) => {
+
+        if(email !== '' && password !== ''){
+            try {
+                let user = await auth.signInWithEmailAndPassword(email, password);
+                console.log(user);
+            } catch(err) {
+                console.log(error);
+            }
+        } else {
+            alert('Missing email or password');
+        }
+    }
+
+    showPass = () => {
+        if(this.state.press == false) {
             this.setState({
                 showPass: false, 
                 press: true
             });
-       } else {
+        } else {
             this.setState({
                 showPass: true, 
                 press: false
             });
-       }
-   }
-
-   static navigationOptions = {
-        header: null,
-   }
+        }
+    }
 
     render() {
         return (
@@ -55,6 +88,8 @@ class Landing extends Component {
                         placeholder='Email'
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
+                        onChangeText={(text) => this.setState({email: text})}
+                        value={this.state.email}
                     />
                 </View>
 
@@ -67,18 +102,20 @@ class Landing extends Component {
                         secureTextEntry={this.state.showPass}
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
+                        onChangeText={(text) => this.setState({password: text})}
+                        value={this.state.password}
                     />
                     <TouchableOpacity 
                         style={styles.btnEye}
                         onPress={this.showPass}
                     >
-                        <IosIcon name={this.state.press == false ? 'ios-eye' : 'ios-eye-off'} size={26} color={'rgba(255, 255, 255, 0.6)'} />
+                        <IosIcon name={this.state.press == false ? 'ios-eye-off' : 'ios-eye'} size={26} color={'rgba(255, 255, 255, 0.6)'} />
                     </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity 
                     style={styles.signInButton}
-                    onPress={() => this.props.navigation.navigate('Home')}
+                    onPress={() => this.signInUser(this.state.email, this.state.password)}
                 >
                     <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
@@ -97,17 +134,37 @@ class Landing extends Component {
     }
 }
 
-const LandingStack = createStackNavigator(
-    {
-        Home: HomeAppContainer,
-        Landing,
-        Signup
+const AppStack = createStackNavigator({
+    Home: {
+        screen: HomeAppContainer,
+        navigationOptions: {
+            header: null,
+        }
+    },
+});
+
+const AuthStack = createStackNavigator({
+        Landing:{
+            screen: Landing,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        Signup: {
+            screen: Signup
+        }
     },
     {
-      initialRouteName: 'Landing',
-    }
+        initialRouteName: 'Landing',
+    },
 );
 
-const LandingContainer = createAppContainer(LandingStack);
+const LandingContainer = createAppContainer(createSwitchNavigator(
+    {
+        AuthLoading: AuthLoading,
+        App: AppStack,
+        Auth: AuthStack,
+    }
+));
 
 export default LandingContainer;
