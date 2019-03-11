@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Picker, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import renderField from './Field';
+import renderPicker from './Picker';
 import styles from '../styles/signupStyles';
 
 const validate = values => {
@@ -50,7 +51,7 @@ class Signup extends Component {
 
     submit = newUser => {
         const { register } = this.props;
-        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.username );  
+        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.username, newUser.location );  
     }
 
     render() {
@@ -61,6 +62,17 @@ class Signup extends Component {
                     <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
+                    <Field
+                        name="location"
+                        component={ renderPicker }
+                        iosHeader="Select one"
+                        mode="dropdown"
+                    >
+                        <Picker.Item label="Anaheim" value="anaheim" />
+                        <Picker.Item label="Santa Ana" value="santaana" />
+                        <Picker.Item label="Irvine" value="irvine" />
+                        <Picker.Item label="Fullerton" value="fullerton" />
+                    </Field>
                     <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none" customStyles={fieldStyles.input} />
                     <Field 
                         keyboardType="default" 

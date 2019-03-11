@@ -8,7 +8,6 @@ import styles from '../styles/landingStyles';
 import logo from '../../assets/images/localpicks.png';
 import bgImage from '../../assets/images/landing-background.jpg';
 import AuthLoading from './AuthLoading';
-import Home from './Home';
 import HomeAppContainer from './Navigation';
 import Signup from './Signup';
 
