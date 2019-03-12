@@ -20,7 +20,7 @@ class Landing extends Component {
             showPass: true,
             press: false,
             loggedin: false,
-            email: 'andrewmirs@gmail.com',
+            email: 'andrewmirs@csu.fullerton.edu',
             password: 'password',
         }
 
