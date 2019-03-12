@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { api_key } from '../../config/google_maps_api';
-
+import _ from 'lodash';
 
 class Profile extends Component {
    
@@ -12,26 +12,36 @@ class Profile extends Component {
         this.state={
             error: '',
             latitude: 33.6846,
-            longitude: 117.8265,
+            longitude: -117.8265,
             destination: '',
+            candidates: [],
         };
+        // this.onChangeDestinationDebounced = _.debounce(this.onChangeDestination, 1000)
     }
 
     onChangeDestination = async (destination) => {
         this.setState({
             destination
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${destination}&inputtype=textquery&fields=photos,formatted_address,name,rating&key=${api_key}`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${destination}&inputtype=textquery&fields=id,photos,formatted_address,geometry/location,name,rating&locationbias=ipbias&key=${api_key}`;
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
             console.log(json);
+            // this.setState({
+            //     candidates: json.candidates
+            // })
         } catch (err) {
             console.log(err);
         }
     }
 
     render(){
+
+        const candidates = this.state.candidates.map(candidate => (
+            <Text key={candidate.id}>{candidate.name}, {candidate.formatted_address}</Text>
+        ));
+
         return (
             <View style={styles.container}>
                 <MapView
@@ -50,6 +60,7 @@ class Profile extends Component {
                     onChangeText={destination => this.onChangeDestination(destination)}
                     style={styles.destinationInput}
                 />
+                { candidates }
             </View>
         );
     }
