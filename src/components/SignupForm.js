@@ -62,17 +62,20 @@ class Signup extends Component {
                     <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
-                    <Field
-                        name="location"
-                        component={ renderPicker }
-                        iosHeader="Select one"
-                        mode="dropdown"
-                    >
-                        <Picker.Item label="Anaheim" value="anaheim" />
-                        <Picker.Item label="Santa Ana" value="santaana" />
-                        <Picker.Item label="Irvine" value="irvine" />
-                        <Picker.Item label="Fullerton" value="fullerton" />
-                    </Field>
+                    <View style={{borderBottomColor: 'rgba(191, 191, 191, 1)', borderBottomWidth: 1}}>
+                        <Field
+                            name="location"
+                            component={ renderPicker }
+                            iosHeader="Select one"
+                            mode="dropdown"
+                        >
+                            <Picker.Item label="Anaheim, CA" value="Anaheim" />
+                            <Picker.Item label="Fullerton, CA" value="Fullerton" />
+                            <Picker.Item label="Irvine, CA" value="Irvine" />
+                            <Picker.Item label="Los Angeles, CA" value="Los Angeles" />
+                            <Picker.Item label="Santa Ana, CA" value="Santa Ana" />
+                        </Field>
+                    </View>
                     <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none" customStyles={fieldStyles.input} />
                     <Field 
                         keyboardType="default" 

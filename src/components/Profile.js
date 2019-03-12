@@ -12,6 +12,7 @@ class Profile extends Component {
             avatar: 'https://api.adorable.io/avatars/285/test@user.r.png',
             firstname: '',
             lastname: '',
+            location: '',
             userId: '',
             username: '',
             loggedin: false,
@@ -39,6 +40,7 @@ class Profile extends Component {
                     firstname: data.firstname,
                     lastname: data.lastname,
                     username: data.username,
+                    location: data.location,
                     avatar: data.avatar,
                     userId: userId,
                     loggedin: true,
@@ -91,7 +93,7 @@ class Profile extends Component {
                     <View style={{ marginRight: 10 }}>
                         <Text>{this.state.firstname}</Text>
                         <Text>{this.state.username}</Text>
-                        <Text>Costa Mesa, CA</Text>
+                        <Text>{`${this.state.location}, CA`}</Text>
                     </View>
                 </View>
                 { this.state.editProfile == true ? (
