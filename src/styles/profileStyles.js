@@ -2,9 +2,42 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
+    acceptButton: {
+        width: width - 55,
+        height: 45,
+        borderRadius: 20,
+        borderColor: 'grey',
+        borderWidth: 1.5,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        marginTop: 15,
+        paddingVertical: 15
+
+    },
     buttonContainer: {
         paddingBottom: 20,
         alignItems: 'center',
+    },
+    buttonText: {
+        color: "grey",
+        fontSize: 18,
+        margin: 5,
+        textAlign: 'center',
+    },
+    cancelButton: {
+        width: width - 55,
+        height: 45,
+        borderRadius: 20,
+        borderColor: 'grey',
+        borderWidth: 1.5,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        marginVertical: 15,
+        paddingVertical: 15
+
+    },
+    font: {
+        color: 'white'
     },
     header: {
         height: 70, 
@@ -14,9 +47,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5, 
         justifyContent: 'center', 
         alignItems: 'center'
-    },
-    font: {
-        color: 'white'
     },
     profileInfoContainer: {
         justifyContent: 'space-evenly', 

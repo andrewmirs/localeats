@@ -4,15 +4,20 @@ import { StyleSheet, Text, View } from 'react-native';
 
 class Home extends Component {
 
-    static navigationOptions = {
-        header: null,
-    }
-
     render() {
         return (
                 <View style={styles.homepage}>
+                    <View style={styles.header}>
+                        <Text style={{paddingTop: 10}}>Local Picks</Text>
+                    </View>
+
+
                     <View style={styles.textContainer}>
-                        <Text style={styles.text}>New home screen!</Text>
+                        <View >
+                            <Text>Home Page (Users by Location)</Text>
+                            <Text style={styles.text}>Location</Text>
+                            <Text style={styles.text}>@username</Text>
+                        </View>
                     </View>
                 </View>
         );
@@ -20,6 +25,15 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        height: 70, 
+        padding: 30, 
+        backgroundColor: 'white', 
+        borderColor: 'lightgrey', 
+        borderBottomWidth: 0.5, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
     homepage: {
         flex: 1,
         backgroundColor: '#F3DE8A',

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Picker, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import renderField from './Field';
+import renderPicker from './Picker';
 import styles from '../styles/signupStyles';
 
 const validate = values => {
@@ -50,17 +52,34 @@ class Signup extends Component {
 
     submit = newUser => {
         const { register } = this.props;
-        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.username );  
+        register(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.username, newUser.location );  
     }
 
     render() {
         const { handleSubmit } = this.props;
         return (
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <KeyboardAwareScrollView
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+            >
                 <View style={styles.formContainer}>
                     <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
+                    <View style={{borderBottomColor: 'rgba(191, 191, 191, 1)', borderBottomWidth: 1}}>
+                        <Field
+                            name="location"
+                            component={ renderPicker }
+                            iosHeader="Select one"
+                            mode="dropdown"
+                        >
+                            <Picker.Item label="Anaheim, CA" value="Anaheim" />
+                            <Picker.Item label="Fullerton, CA" value="Fullerton" />
+                            <Picker.Item label="Irvine, CA" value="Irvine" />
+                            <Picker.Item label="Los Angeles, CA" value="Los Angeles" />
+                            <Picker.Item label="Santa Ana, CA" value="Santa Ana" />
+                        </Field>
+                    </View>
                     <Field keyboardType="email-address" placeholder="Email" component={renderField} name="email" autoCapitalize="none" customStyles={fieldStyles.input} />
                     <Field 
                         keyboardType="default" 
@@ -87,7 +106,7 @@ class Signup extends Component {
                         <Text style={styles.submitText}>Get Started</Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }

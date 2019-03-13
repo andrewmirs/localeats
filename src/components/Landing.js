@@ -8,7 +8,6 @@ import styles from '../styles/landingStyles';
 import logo from '../../assets/images/localpicks.png';
 import bgImage from '../../assets/images/landing-background.jpg';
 import AuthLoading from './AuthLoading';
-import Home from './Home';
 import HomeAppContainer from './Navigation';
 import Signup from './Signup';
 
@@ -21,7 +20,7 @@ class Landing extends Component {
             showPass: true,
             press: false,
             loggedin: false,
-            email: 'andrewmirs@gmail.com',
+            email: 'andrewmirs@csu.fullerton.edu',
             password: 'password',
         }
 
@@ -48,7 +47,7 @@ class Landing extends Component {
                 let user = await auth.signInWithEmailAndPassword(email, password);
                 console.log(user);
             } catch(err) {
-                console.log(error);
+                alert('Unauthorized: Either your email or password was incorrect. Please try again.');
             }
         } else {
             alert('Missing email or password');
@@ -79,13 +78,13 @@ class Landing extends Component {
                         source={logo}
                     />
                 </View>
-
+                
                 <View style={styles.inputContainer}>
                     <Icon name={'envelope'} size={30} color={'rgba(255, 255, 255, 0.7)'} style={styles.inputIcon} />
                     <TextInput
                         name='email'
                         style={styles.input}
-                        placeholder='Email'
+                        placeholder='Email address'
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
                         onChangeText={(text) => this.setState({email: text})}
@@ -98,11 +97,12 @@ class Landing extends Component {
                     <TextInput
                         name='password'
                         style={styles.input}
-                        placeholder='Password'
+                        placeholder='Password (8+ characters)'
                         secureTextEntry={this.state.showPass}
                         placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                         underlineColorAndroid='transparent'
                         onChangeText={(text) => this.setState({password: text})}
+                        autoCapitalize="none"
                         value={this.state.password}
                     />
                     <TouchableOpacity 
