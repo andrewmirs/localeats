@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import MapView from 'react-native-maps';
-import { api_key } from '../../config/google_maps_api';
-import _ from 'lodash';
+import { Alert, Button, Dimensions, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import GooglePlaces from './GooglePlaces';
+
 
 class Favorites extends Component {
    
@@ -10,95 +9,46 @@ class Favorites extends Component {
         super(props);
 
         this.state={
-            error: '',
-            latitude: 0,
-            longitude: 0,
-            location: '',
-            predictions: [],
-            placeid: '',
+            favorites: [],
+            addFavorite: null,
             details: null,
+            notes: '',
         };
-        this.onChangeLocationDebounced = _.debounce(this.onChangeLocation, 1000)
+      
     }
 
-    componentDidMount = () => {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            error => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
-        );
-    }
-
-    onChangeLocation = async (location) => {
+    getSelectedPickerValue=()=>{
         this.setState({
-            location
+            addFavorite: this.state.PickerSelectedVal,
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${api_key}&input=${location}&location=${this.state.latitude},${this.state.longitude}&radius=2000`;
-        try {
-            const result = await fetch(apiUrl);
-            const json = await result.json();
-            this.setState({
-                predictions: json.predictions,
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    selectLocation = async (placeid) => {
-        this.setState({
-            placeid
-        });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,formatted_address,photo,website,id,formatted_phone_number`;
-        try {
-            const result = await fetch(apiUrl);
-            const json = await result.json();
-            console.log(json);
-            // this.setState({
-            //     details: json.result,
-            // })
-        } catch (err) {
-            console.log(err);
-        }
     }
 
     render(){
-
-        const predictions = this.state.predictions.map(( prediction, index ) => (
-            <TouchableOpacity
-                style={index == 4 ? styles.suggestionsRoundedBottom : styles.suggestions}
-                onPress={() => this.selectLocation(prediction.place_id)}
-                key={prediction.id}
-                index={index}
-            >
-                <Text >{prediction.description}</Text>
-            </TouchableOpacity>
-        ));
-
         return (
             <View style={styles.container}>
-                <MapView
-                    style={styles.map} 
-                    region={{
-                        latitude: this.state.latitude,
-                        longitude: this.state.longitude,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                    showsUserLocation={true}
-                />
-                <TextInput 
-                    placeholder="Search.." 
-                    value={this.state.destination} 
-                    onChangeText={location => this.onChangeLocationDebounced(location)}
-                    style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
-                />
-                { predictions }
+                {this.state.addFavorite == null ? (
+                    <View>
+                        <Text>Choose a place that has your:</Text>
+                        <Picker
+                            style={styles.pickerInput}
+                            selectedValue={this.state.PickerSelectedVal}
+                            onValueChange={(itemValue, itemIndex) => this.setState({PickerSelectedVal: itemValue})}
+                        >
+
+                            <Picker.Item label="Favorite Brunch" value="Brunch" />
+                            <Picker.Item label="Favorite Cinnamon Rolls" value="Cinnamon Rolls" />
+                            <Picker.Item label="Favorite Tacos" value="Tacos" />
+                            <Picker.Item label="Favorite Ice Cream" value="Ice Cream" />
+                            <Picker.Item label="Favorite Burgers" value="Burgers" />
+                            <Picker.Item label="Favorite Sushi Rolls" value="Sushi Rolls" />
+
+                        </Picker>
+
+                        <Button title="Select" onPress={ this.getSelectedPickerValue } />
+                    </View>
+                    ) : (
+                        <GooglePlaces favorite={this.state.addFavorite} />
+                    )}
             </View>
         );
     }
@@ -108,56 +58,23 @@ class Favorites extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
-       ...StyleSheet.absoluteFillObject
+        flex: 1,
+        width,
+        height,
+        backgroundColor: '#CAE7B9',
+        justifyContent: 'center', 
+        alignItems: 'center'
     },
-    locationInput: {
-        height: 40,
-        borderWidth: 0.5,
-        borderColor: 'darkgrey',
+    pickerInput: {
+        borderColor: 'rgba(191, 191, 191, 1)',
+        borderStyle: 'solid',
         borderRadius: 5,
-        marginTop: 50,
-        marginLeft: 5,
-        marginRight: 5,
+        borderWidth: 1,
+        borderBottomWidth: 1,
+        height: 50,
+        width: width - 55,
         padding: 5,
-        backgroundColor: 'white',
-        zIndex: 5,
-    },
-    locationInputWithPredictions: {
-        height: 40,
-        borderWidth: 0.5,
-        borderColor: 'darkgrey',
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
-        marginTop: 50,
-        marginLeft: 5,
-        marginRight: 5,
-        padding: 5,
-        backgroundColor: 'white',
-        zIndex: 5,
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    suggestions: {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        padding: 5,
-        fontSize: 16,
-        borderWidth: 0.5,
-        marginLeft: 5,
-        marginRight: 5,
-        borderRadius: 0,
-        borderColor: 'darkgrey',
-    },
-    suggestionsRoundedBottom: {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        padding: 5,
-        fontSize: 16,
-        borderWidth: 0.5,
-        marginLeft: 5,
-        marginRight: 5,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 5,
-        borderColor: 'darkgrey',
+        marginTop: 15,
     },
 });
 

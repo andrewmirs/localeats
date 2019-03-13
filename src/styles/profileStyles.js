@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
         paddingVertical: 15
 
     },
+    editTitle: {
+        color: "grey",
+        fontSize: 18,
+    },
     font: {
         color: 'white'
     },
