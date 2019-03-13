@@ -78,7 +78,7 @@ class Landing extends Component {
                         source={logo}
                     />
                 </View>
-
+                
                 <View style={styles.inputContainer}>
                     <Icon name={'envelope'} size={30} color={'rgba(255, 255, 255, 0.7)'} style={styles.inputIcon} />
                     <TextInput

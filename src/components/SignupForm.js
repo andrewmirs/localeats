@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Dimensions, Picker, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import renderField from './Field';
 import renderPicker from './Picker';
 import styles from '../styles/signupStyles';
@@ -57,7 +58,10 @@ class Signup extends Component {
     render() {
         const { handleSubmit } = this.props;
         return (
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <KeyboardAwareScrollView
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+            >
                 <View style={styles.formContainer}>
                     <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                     <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
@@ -102,7 +106,7 @@ class Signup extends Component {
                         <Text style={styles.submitText}>Get Started</Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }

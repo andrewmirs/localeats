@@ -37,22 +37,22 @@ class EditProfile extends Component {
     render(){
         const { handleSubmit } = this.props;
         return(
-            <View style={{ alignItems: 'center', justifyContent: 'center',paddingTop: 20}}>
+            <View style={fieldStyles.container}>
                 <Text>Edit Profile</Text>
                 <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
                 <TouchableOpacity 
                         onPress={handleSubmit(this.submit)} 
-                        style={styles.signOutButton}
+                        style={styles.acceptButton}
                     >
-                        <Text style={styles.signOutText}>Accept</Text>
+                        <Text style={styles.buttonText}>Accept</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={this.props.cancelEdit}
-                    style={styles.signOutButton}
+                    style={styles.cancelButton}
                 >
-                    <Text style={styles.signOutText}>Cancel</Text>
+                    <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
 
             </View>
@@ -62,6 +62,16 @@ class EditProfile extends Component {
 
 const { height, width } = Dimensions.get('window');
 const fieldStyles = StyleSheet.create({
+    container: {
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        paddingTop: 20, 
+        backgroundColor:'white', 
+        borderTopColor: 'grey',
+        borderBottomColor: 'grey',
+        borderBottomWidth: 0.5,
+        borderTopWidth: 0.5,
+    },
     input: {
         borderBottomColor: 'darkgray',
         borderBottomWidth: 1,

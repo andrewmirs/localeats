@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#b23f2e',
         justifyContent: 'center',
         marginTop: 40,
+        marginBottom: 20,
     },
     submitText: {
         color: "rgba(255, 255, 255, 1.0)",
