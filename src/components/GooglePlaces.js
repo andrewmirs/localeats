@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { api_key } from '../../config/google_maps_api';
 import _ from 'lodash';
 
-class Favorites extends Component {
+class GooglePlaces extends Component {
    
     constructor(props){
         super(props);
@@ -80,6 +80,8 @@ class Favorites extends Component {
             </TouchableOpacity>
         ));
 
+        const { favorite } = this.props;
+
         return (
             <View style={styles.container}>
                 <MapView
@@ -98,7 +100,9 @@ class Favorites extends Component {
                     onChangeText={location => this.onChangeLocationDebounced(location)}
                     style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
                 />
+
                 { predictions }
+
             </View>
         );
     }
@@ -161,4 +165,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Favorites;
+export default GooglePlaces;

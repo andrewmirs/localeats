@@ -38,7 +38,7 @@ class EditProfile extends Component {
         const { handleSubmit } = this.props;
         return(
             <View style={fieldStyles.container}>
-                <Text>Edit Profile</Text>
+                <Text style={styles.editTitle}>Edit Profile</Text>
                 <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />

@@ -2,10 +2,26 @@ import React, { Component } from 'react';
 import { Feather } from '@expo/vector-icons'; // 6.2.2
 import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import Favorites from './Favorites';
+import GooglePlaces from './GooglePlaces';
 import Home from './Home';
 import Profile from './Profile';
 
 let IconComponent = Feather;
+
+const FavoriteStack = createStackNavigator({
+  Favorites: { 
+    screen: Favorites,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  GooglePlaces: { 
+    screen: GooglePlaces,
+    navigationOptions: {
+      header: null,
+    }
+  },
+});
 
 const TabNavigator = createBottomTabNavigator({
   Home: {
@@ -22,7 +38,7 @@ const TabNavigator = createBottomTabNavigator({
     },
   },
   Favorites: {
-    screen: Favorites,
+    screen: FavoriteStack,
     navigationOptions: {
       tabBarLabel: "Favorites",
       tabBarOptions: {
