@@ -21,12 +21,12 @@ class Favorites extends Component {
         this.setState({
             addFavorite: this.state.PickerSelectedVal,
         });
+        this.props.navigation.navigate('GooglePlaces');
     }
 
     render(){
         return (
             <View style={styles.container}>
-                {this.state.addFavorite == null ? (
                     <View>
                         <Text>Choose a place that has your:</Text>
                         <Picker
@@ -46,9 +46,6 @@ class Favorites extends Component {
 
                         <Button title="Select" onPress={ this.getSelectedPickerValue } />
                     </View>
-                    ) : (
-                        <GooglePlaces favorite={this.state.addFavorite} />
-                    )}
             </View>
         );
     }

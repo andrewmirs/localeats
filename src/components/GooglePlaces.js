@@ -102,7 +102,7 @@ class GooglePlaces extends Component {
                 />
 
                 { predictions }
-                
+
             </View>
         );
     }
