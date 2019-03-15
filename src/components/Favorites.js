@@ -9,7 +9,7 @@ class Favorites extends Component {
         super(props);
 
         this.state={
-            favorites: [],
+            favoritesList: [],
             addFavorite: null,
             details: null,
             notes: '',
@@ -21,7 +21,9 @@ class Favorites extends Component {
         this.setState({
             addFavorite: this.state.PickerSelectedVal,
         });
-        this.props.navigation.navigate('GooglePlaces');
+        this.props.navigation.navigate('GooglePlaces', {
+            favorite: this.state.PickerSelectedVal,
+        });
     }
 
     render(){
