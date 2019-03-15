@@ -11,6 +11,7 @@ class GooglePlaces extends Component {
 
         this.state={
             error: '',
+            favorite: null,
             latitude: 0,
             longitude: 0,
             location: '',
@@ -32,6 +33,11 @@ class GooglePlaces extends Component {
             error => this.setState({ error: error.message }),
             { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
         );
+
+        const favorite = this.props.navigation.getParam('favorite', "Favorite param didn't make it");
+        this.setState({
+            favorite,
+        });
     }
 
     onChangeLocation = async (location) => {
@@ -44,7 +50,7 @@ class GooglePlaces extends Component {
             const json = await result.json();
             this.setState({
                 predictions: json.predictions,
-            })
+            });
         } catch (err) {
             console.log(err);
         }
@@ -58,10 +64,14 @@ class GooglePlaces extends Component {
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
-            console.log(json);
-            // this.setState({
-            //     details: json.result,
-            // })
+            this.setState({
+                details: json.result,
+            });
+
+            this.props.navigation.navigate('Notes', {
+                details: this.state.details,
+                favorite: this.state.favorite
+            });
         } catch (err) {
             console.log(err);
         }
@@ -79,8 +89,6 @@ class GooglePlaces extends Component {
                 <Text >{prediction.description}</Text>
             </TouchableOpacity>
         ));
-
-        const { favorite } = this.props;
 
         return (
             <View style={styles.container}>

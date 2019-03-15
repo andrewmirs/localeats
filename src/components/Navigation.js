@@ -4,6 +4,7 @@ import { createAppContainer, createBottomTabNavigator, createStackNavigator } fr
 import Favorites from './Favorites';
 import GooglePlaces from './GooglePlaces';
 import Home from './Home';
+import Notes from './Notes';
 import Profile from './Profile';
 
 let IconComponent = Feather;
@@ -17,6 +18,12 @@ const FavoriteStack = createStackNavigator({
   },
   GooglePlaces: { 
     screen: GooglePlaces,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  Notes: { 
+    screen: Notes,
     navigationOptions: {
       header: null,
     }
