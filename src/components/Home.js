@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Notes from './Notes';
 
 
 class Home extends Component {
@@ -13,11 +14,7 @@ class Home extends Component {
 
 
                     <View style={styles.textContainer}>
-                        <View >
-                            <Text>Home Page (Users by Location)</Text>
-                            <Text style={styles.text}>Location</Text>
-                            <Text style={styles.text}>@username</Text>
-                        </View>
+                        <Notes />
                     </View>
                 </View>
         );
