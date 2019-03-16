@@ -42,8 +42,11 @@ class Notes extends Component {
                             favorite={'Pasta'} 
                             phonenumber={'(862) 224-5850'} 
                             name={'North Italia'}
-                            photo={'CmRaAAAAWyyP1y_p9lc8X_8dx8JClrB9ZJitKLJC5Wa5WteFoL39lGpAaHLCjHC3VFu-MKd3N2QLMapg-WYODhUUgbyub0n_OUUqLl94f1QmRUvzjcX4LR3OrLqE1Co1HRMz8SwwEhC_IezrFzD2hbv9f6aQflovGhR4S_s0a1Fh3txALkRHhQZrLraAwQ'}
+                            photo={'CmRaAAAASqh4AQkhKyIeoNfVtGURDXhJVxfwiMtG8DRgGBkaYWD2vqVvqrqa2YevSEKCEnwNtzES02KEe22bpbBLhiL6Tvdxr1TLru6UP0DeU6TOarnU67iOSG1iyd1-uLZhQOW8EhBve7-4k1eT9wW7456S3Xa2GhSo0MVmQlrYXOa8kHMolpk6k6qixg'}
                             rating={4.4}
+                            latitude={33.6717498}
+                            longitude={-117.8450232}
+                            placeId={'ChIJH-B6kmLe3IARltKe7Pe0CSg'}
                         />
                     </View>
             </View>
