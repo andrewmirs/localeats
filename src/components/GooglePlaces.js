@@ -60,14 +60,14 @@ class GooglePlaces extends Component {
         this.setState({
             placeid
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,formatted_address,photo,website,id,formatted_phone_number`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,geometry,photo,place_id,rating,website,id,formatted_phone_number`;
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
             this.setState({
                 details: json.result,
             });
-
+            console.log(json);
             this.props.navigation.navigate('Notes', {
                 details: this.state.details,
                 favorite: this.state.favorite
