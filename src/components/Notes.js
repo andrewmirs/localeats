@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import LocalPick from './LocalPick';
 
 
 class Notes extends Component {
@@ -36,56 +37,14 @@ class Notes extends Component {
                     <View>
                         <Text>I've reached the notes page!!</Text>
                     </View>
-                    <View style={{mareginTop: 40, flexDirection: 'row' }}>
-                        <View style={{ paddingHorizontal: 10, marginTop: 20 }}>
-                            <View style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5 }}>
-                                <View style={{ flex: 1 }}>
-                                    <Image
-                                        style={{ flex: 1, width: null, height: null, resizeMode: 'cover',
-                                        borderTopLeftRadius: 5, borderTopRightRadius: 5, }} 
-                                        source={require('../../assets/images/northitalia.jpeg')} 
-                                    />
-                                </View>
-                                <View style={{ flex: -1, alignItems: 'flex-start', justifyContent: 'space-evenly', paddingLeft: 10, paddingBottom: 5 }}>
-                                    <Text style={{ fontSize: 12, color: '#b63838'}}>Favorite Spagetti Spot</Text>
-                                    <Text style={{ fontSize: 11, fontWeight: 'bold' }}>North Italia</Text>
-                                    <Text style={{ fontSize: 10 }}>Website Link</Text>
-                                </View>
-                                <View style={{ flex: -1, height: 30, flexDirection: 'row', borderBottomLeftRadius: 5, borderBottomRightRadius: 5, backgroundColor: 'grey'}}>
-                                    <TouchableOpacity style={{ width: '50%', height: '100%', backgroundColor: 'grey', borderBottomLeftRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Ionicons name={`ios-call`} size={18} color='darkgrey' />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ width: '50%', height: '100%', backgroundColor: 'darkgrey', borderBottomRightRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Ionicons name={`ios-pin`} size={18} color='grey' />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View style={{ paddingHorizontal: 10, marginTop: 20 }}>
-                            <View style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5 }}>
-                                <View style={{ flex: 1 }}>
-                                    <Image
-                                        style={{ flex: 1, width: null, height: null, resizeMode: 'cover',
-                                        borderTopLeftRadius: 5, borderTopRightRadius: 5, }} 
-                                        source={require('../../assets/images/northitalia.jpeg')} 
-                                    />
-                                </View>
-                                <View style={{ flex: -1, alignItems: 'flex-start', justifyContent: 'space-evenly', paddingLeft: 10, paddingBottom: 5 }}>
-                                    <Text style={{ fontSize: 12, color: '#b63838'}}>Favorite Spagetti Spot</Text>
-                                    <Text style={{ fontSize: 11, fontWeight: 'bold' }}>North Italia</Text>
-                                    <Text style={{ fontSize: 10 }}>Website Link</Text>
-                                </View>
-                                <View style={{ flex: -1, height: 30, flexDirection: 'row', borderBottomLeftRadius: 5, borderBottomRightRadius: 5, backgroundColor: 'grey'}}>
-                                    <TouchableOpacity style={{ width: '50%', height: '100%', backgroundColor: 'grey', borderBottomLeftRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Ionicons name={`ios-call`} size={18} color='darkgrey' />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ width: '50%', height: '100%', backgroundColor: 'darkgrey', borderBottomRightRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Ionicons name={`ios-pin`} size={18} color='grey' />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
+                    <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        <LocalPick 
+                            favorite={'Pasta'} 
+                            phonenumber={'(862) 224-5850'} 
+                            name={'North Italia'}
+                            photo={'CmRaAAAAWyyP1y_p9lc8X_8dx8JClrB9ZJitKLJC5Wa5WteFoL39lGpAaHLCjHC3VFu-MKd3N2QLMapg-WYODhUUgbyub0n_OUUqLl94f1QmRUvzjcX4LR3OrLqE1Co1HRMz8SwwEhC_IezrFzD2hbv9f6aQflovGhR4S_s0a1Fh3txALkRHhQZrLraAwQ'}
+                            rating={4.4}
+                        />
                     </View>
             </View>
         );
