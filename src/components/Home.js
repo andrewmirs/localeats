@@ -14,7 +14,7 @@ class Home extends Component {
 
 
                     <View style={styles.textContainer}>
-                        <Notes />
+                        <Text>Home Page!!</Text>
                     </View>
                 </View>
         );
