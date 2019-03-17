@@ -9,6 +9,15 @@ import Profile from './Profile';
 
 let IconComponent = Feather;
 
+const HomeStack = createStackNavigator({
+  Home: { 
+    screen: Home,
+    navigationOptions: {
+      headerTitleStyle: {flex: 1, textAlign: 'center'},
+      },
+    }
+});
+
 const FavoriteStack = createStackNavigator({
   Favorites: { 
     screen: Favorites,
@@ -30,14 +39,26 @@ const FavoriteStack = createStackNavigator({
   },
 });
 
+const ProfileStack = createStackNavigator({
+  Profile: { 
+    screen: Profile,
+    navigationOptions: {
+      headerTitleStyle: {flex: 1, textAlign: 'center'},
+      },
+    }
+});
+
 const TabNavigator = createBottomTabNavigator({
   Home: {
-    screen: Home,
+    screen: HomeStack,
     navigationOptions: {
       tabBarLabel: "Home",
       tabBarOptions: {
           activeTintColor: '#b23f2e',
           inactiveTintColor: 'gray',
+          tabStyle: {
+            height: 45,
+        },
       },
       tabBarIcon: ({tintColor})=>(
         <IconComponent name={`home`} size={25} color={tintColor} />
@@ -51,6 +72,9 @@ const TabNavigator = createBottomTabNavigator({
       tabBarOptions: {
           activeTintColor: '#b23f2e',
           inactiveTintColor: 'gray',
+          tabStyle: {
+            height: 45,
+        },
       },
       tabBarIcon: ({tintColor})=>(
         <IconComponent name={`star`} size={25} color={tintColor} />
@@ -58,12 +82,15 @@ const TabNavigator = createBottomTabNavigator({
     },
   },
   Profile: {
-    screen: Profile,
+    screen: ProfileStack,
     navigationOptions: {
       tabBarLabel: "Profile",
       tabBarOptions: {
           activeTintColor: '#b23f2e',
           inactiveTintColor: 'gray',
+          tabStyle: {
+            height: 45,
+        },
       },
       tabBarIcon: ({tintColor})=>(
         <IconComponent name={`user`} size={25} color={tintColor} />

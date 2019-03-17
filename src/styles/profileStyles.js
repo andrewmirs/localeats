@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     },
     profilepage: {
         flex: 1, 
-        backgroundColor: '#EB9486',
+        backgroundColor: 'white',
     },
     picture: {
         marginLeft: 10,

@@ -43,7 +43,7 @@ class Notes extends Component {
                         <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                             <LocalPick 
                                 favorite={favorite} 
-                                phonenumber={`9496449654`} 
+                                phonenumber={details.formatted_phone_number} 
                                 name={details.name}
                                 photo={details.photos[0].photo_reference}
                                 rating={details.rating}

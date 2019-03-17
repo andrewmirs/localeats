@@ -6,6 +6,14 @@ import EditProfile from './EditProfile';
 
 class Profile extends Component {
 
+    static navigationOptions = {
+        title: 'Profile',
+        headerStyle: {
+            backgroundColor: '#b23f2e',
+        },
+        headerTintColor: '#fff',
+    };
+
     constructor(props){
         super(props);
         this.state={
@@ -85,9 +93,6 @@ class Profile extends Component {
     render(){
         return(
             <View style={styles.profilepage}>
-                <View style={styles.header}>
-                    <Text style={{paddingTop: 10}}>Profile</Text>
-                </View>
                 <View style={styles.profileInfoContainer}>
                     <Image source={{uri: `${this.state.avatar}`}} style={styles.picture} />
                     <View style={{ marginRight: 10 }}>
