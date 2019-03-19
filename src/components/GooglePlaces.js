@@ -67,7 +67,6 @@ class GooglePlaces extends Component {
             this.setState({
                 details: json.result,
             });
-            console.log(json);
             this.props.navigation.navigate('Notes', {
                 details: this.state.details,
                 favorite: this.state.favorite

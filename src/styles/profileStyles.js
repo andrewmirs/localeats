@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 10,
         paddingVertical: 15
-
     },
     signOutText: {
         color: "grey",

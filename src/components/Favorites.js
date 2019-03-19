@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, Dimensions, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import GooglePlaces from './GooglePlaces';
+import { Button, Dimensions, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 class Favorites extends Component {
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width,
         height,
-        backgroundColor: '#CAE7B9',
+        backgroundColor: '#EB9486',
         justifyContent: 'center', 
         alignItems: 'center'
     },
