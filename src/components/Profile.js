@@ -3,8 +3,17 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
 import EditProfile from './EditProfile';
+import LocalPick from './LocalPick';
 
 class Profile extends Component {
+
+    static navigationOptions = {
+        title: 'Profile',
+        headerStyle: {
+            backgroundColor: '#b23f2e',
+        },
+        headerTintColor: '#fff',
+    };
 
     constructor(props){
         super(props);
@@ -17,6 +26,7 @@ class Profile extends Component {
             username: '',
             loggedin: false,
             editProfile: false,
+            favorites: [],
         }
     }
 
@@ -24,10 +34,22 @@ class Profile extends Component {
         const that = this;
         f.auth().onAuthStateChanged(function(user) {
             if(user){
-                that.fetchUserInfo(user.uid)
+                that.fetchUserInfo(user.uid);
+                that.fetchFavorites(user.uid);
             } else {
                 console.log('No user data! Either not logged in or database error')
             }
+        });
+    }
+
+    fetchFavorites = (userId) => {
+        var that = this;
+        database.ref('favorites').child(userId).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+                that.setState({
+                    favorites: [data],
+                });
         });
     }
 
@@ -80,14 +102,13 @@ class Profile extends Component {
             editProfile: false,
         })
         this.fetchUserInfo(this.state.userId);
+        
     }
 
     render(){
+
         return(
             <View style={styles.profilepage}>
-                <View style={styles.header}>
-                    <Text style={{paddingTop: 10}}>Profile</Text>
-                </View>
                 <View style={styles.profileInfoContainer}>
                     <Image source={{uri: `${this.state.avatar}`}} style={styles.picture} />
                     <View style={{ marginRight: 10 }}>
@@ -96,6 +117,15 @@ class Profile extends Component {
                         <Text>{`${this.state.location}, CA`}</Text>
                     </View>
                 </View>
+                { this.state.favorites.length == 0 ? (
+                    <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>Local picks go here..</Text>
+                    </View>
+                ) : (
+                    <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        
+                    </View>
+                )}
                 { this.state.editProfile == true ? (
                     <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} />
                 ) : (

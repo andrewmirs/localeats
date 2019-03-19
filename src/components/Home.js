@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Notes from './Notes';
 
 
 class Home extends Component {
 
+    static navigationOptions = {
+        title: 'Local Picks',
+        headerStyle: {
+            backgroundColor: '#b23f2e',
+        },
+        headerTintColor: '#fff',
+    };
+
     render() {
         return (
                 <View style={styles.homepage}>
-                    <View style={styles.header}>
-                        <Text style={{paddingTop: 10}}>Local Picks</Text>
-                    </View>
-
-
                     <View style={styles.textContainer}>
-                        <View >
-                            <Text>Home Page (Users by Location)</Text>
-                            <Text style={styles.text}>Location</Text>
-                            <Text style={styles.text}>@username</Text>
-                        </View>
+                        <Text>Home Page!!</Text>
                     </View>
                 </View>
         );
@@ -25,18 +25,9 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        height: 70, 
-        padding: 30, 
-        backgroundColor: 'white', 
-        borderColor: 'lightgrey', 
-        borderBottomWidth: 0.5, 
-        justifyContent: 'center', 
-        alignItems: 'center'
-    },
     homepage: {
         flex: 1,
-        backgroundColor: '#F3DE8A',
+        backgroundColor: '#C7CEDB',
     },
     text: {
         color: '#7E7F9A',

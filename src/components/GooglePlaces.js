@@ -4,13 +4,14 @@ import MapView from 'react-native-maps';
 import { api_key } from '../../config/google_maps_api';
 import _ from 'lodash';
 
-class Favorites extends Component {
+class GooglePlaces extends Component {
    
     constructor(props){
         super(props);
 
         this.state={
             error: '',
+            favorite: null,
             latitude: 0,
             longitude: 0,
             location: '',
@@ -32,6 +33,11 @@ class Favorites extends Component {
             error => this.setState({ error: error.message }),
             { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
         );
+
+        const favorite = this.props.navigation.getParam('favorite', "Favorite param didn't make it");
+        this.setState({
+            favorite,
+        });
     }
 
     onChangeLocation = async (location) => {
@@ -44,7 +50,7 @@ class Favorites extends Component {
             const json = await result.json();
             this.setState({
                 predictions: json.predictions,
-            })
+            });
         } catch (err) {
             console.log(err);
         }
@@ -54,14 +60,17 @@ class Favorites extends Component {
         this.setState({
             placeid
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,formatted_address,photo,website,id,formatted_phone_number`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,geometry,photo,place_id,rating,website,id,formatted_phone_number`;
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
-            console.log(json);
-            // this.setState({
-            //     details: json.result,
-            // })
+            this.setState({
+                details: json.result,
+            });
+            this.props.navigation.navigate('Notes', {
+                details: this.state.details,
+                favorite: this.state.favorite
+            });
         } catch (err) {
             console.log(err);
         }
@@ -98,7 +107,9 @@ class Favorites extends Component {
                     onChangeText={location => this.onChangeLocationDebounced(location)}
                     style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
                 />
+
                 { predictions }
+
             </View>
         );
     }
@@ -161,4 +172,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Favorites;
+export default GooglePlaces;

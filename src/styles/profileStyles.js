@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
         paddingVertical: 15
 
     },
+    editTitle: {
+        color: "grey",
+        fontSize: 18,
+    },
     font: {
         color: 'white'
     },
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     },
     profilepage: {
         flex: 1, 
-        backgroundColor: '#EB9486',
+        backgroundColor: 'white',
     },
     picture: {
         marginLeft: 10,
@@ -74,7 +78,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 10,
         paddingVertical: 15
-
     },
     signOutText: {
         color: "grey",
