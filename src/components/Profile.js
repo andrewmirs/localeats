@@ -254,7 +254,7 @@ class Profile extends Component {
                     <View style={styles.header}>
                     
                         <View style={styles.profilePicWrap}>
-                            <Image style={styles.profilepic} source={{uri: this.state.avatar }} />
+                            <Image style={styles.profilepic} source={{ uri: `${this.state.avatar}` }} />
                         </View>
 
                         <Text style={styles.name}>{this.state.firstname} {this.state.lastname}</Text>
