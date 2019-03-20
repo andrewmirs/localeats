@@ -43,24 +43,48 @@ const styles = StyleSheet.create({
     font: {
         color: 'white'
     },
-    header: {
-        height: 70, 
-        padding: 30, 
-        backgroundColor: 'white', 
-        borderColor: 'lightgrey', 
-        borderBottomWidth: 0.5, 
-        justifyContent: 'center', 
-        alignItems: 'center'
+    headerBackground: {
+        flex: 1,
+        width: width,
+        height: 300,
+        backgroundColor: 'lightgrey',
     },
-    profileInfoContainer: {
-        justifyContent: 'space-evenly', 
-        alignItems: 'center', 
-        flexDirection: 'row', 
-        paddingVertical: 10
+    header: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: 'rgba(0,0,0, 0.5)',
+    },
+    location: {
+        fontSize: 12,
+        color: 'black',
+        fontWeight: '300'
+    },
+    name: {
+        marginTop: 20,
+        fontSize: 14,
+        color: 'darkgrey',
+        fontWeight: 'bold',
     },
     profilepage: {
         flex: 1, 
         backgroundColor: 'white',
+    },
+    profilePic: {
+        flex: 1,
+        width: null,
+        alignSelf: 'stretch',
+        borderRadius: 100,
+        borderColor: '#fff',
+        borderWidth: 4,
+    },
+    profilePicWrap: {
+        width: 180,
+        height: 180,
+        borderRadius: 100,
+        borderColor: 'rgba(0,0,0, 0.4)',
+        borderWidth: 16,
     },
     picture: {
         marginLeft: 10,
@@ -84,6 +108,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         margin: 5,
         textAlign: 'center',
+    },
+    username: {
+        fontSize: 12,
+        color: 'black',
+        fontWeight: '300',
     },
 });
 
