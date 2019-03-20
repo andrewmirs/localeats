@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+import { Header } from 'react-native-elements';
 
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -45,8 +46,8 @@ const styles = StyleSheet.create({
     },
     headerBackground: {
         flex: 1,
-        width: width,
-        height: 300,
+        width: null,
+        alignSelf: 'stretch',
         backgroundColor: 'lightgrey',
     },
     header: {
@@ -57,14 +58,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0, 0.5)',
     },
     location: {
-        fontSize: 12,
-        color: 'black',
+        fontSize: 14,
+        color: 'white',
         fontWeight: '300'
     },
     name: {
         marginTop: 20,
-        fontSize: 14,
-        color: 'darkgrey',
+        fontSize: 15,
+        color: 'lightgrey',
         fontWeight: 'bold',
     },
     profilepage: {
@@ -110,8 +111,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     username: {
-        fontSize: 12,
-        color: 'black',
+        fontSize: 14,
+        color: 'white',
         fontWeight: '300',
     },
 });

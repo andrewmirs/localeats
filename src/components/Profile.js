@@ -3,6 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
 import EditProfile from './EditProfile';
+import ProfileHeader from './ProfileHeader';
 import LocalPick from './LocalPick';
 
 class Profile extends Component {
@@ -249,21 +250,13 @@ class Profile extends Component {
 
         return(
             <View style={styles.profilepage}>
-                <View style={styles.headerBackground}>
-
-                    <View style={styles.header}>
-                    
-                        <View style={styles.profilePicWrap}>
-                            <Image style={styles.profilepic} source={{ uri: `${this.state.avatar}` }} />
-                        </View>
-
-                        <Text style={styles.name}>{this.state.firstname} {this.state.lastname}</Text>
-                        <Text style={styles.username}>{this.state.username}</Text>
-                        <Text style={styles.location}>{this.state.location}</Text>
-
-                    </View>
-                    
-                </View>
+                <ProfileHeader
+                    avatar={this.state.avatar}
+                    firstname={this.state.firstname}
+                    lastname={this.state.lastname}
+                    username={this.state.username}
+                    location={this.state.location}
+                />
                 {/* <ScrollView>
                     { this.state.favorites.length == 0 ? (
                         <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
