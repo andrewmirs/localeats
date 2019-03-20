@@ -20,7 +20,7 @@ class LocalPick extends Component {
 
     render(){
         return(
-            <View style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5, marginTop: 10 }}>
+            <View key={this.props.key} style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5, marginTop: 10 }}>
                 <View style={{ flex: 1 }}>
                     <Image
                         style={{ flex: 1, width: null, height: null, resizeMode: 'cover',
@@ -28,7 +28,7 @@ class LocalPick extends Component {
                         source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.photo}&key=${api_key}`}} 
                     />
                 </View>
-                <View style={{ flex: -1, alignItems: 'flex-start', justifyContent: 'space-evenly', paddingLeft: 10, paddingVertical: 5 }}>
+                <View style={{ flex: -1, alignItems: 'flex-start', justifyContent: 'space-evenly', paddingLeft: 10, paddingVertical: 5, backgroundColor: 'white' }}>
                     <Text style={{ fontSize: 12, color: '#b63838'}}>Favorite {this.props.favorite}</Text>
                     <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{this.props.name}</Text>
                     <StarRating 
