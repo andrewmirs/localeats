@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, database, f } from '../../config/config';
 import styles from '../styles/profileStyles';
 import EditProfile from './EditProfile';
@@ -47,8 +47,9 @@ class Profile extends Component {
         database.ref('favorites').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
+                var arrayOfData = Object.values(data);
                 that.setState({
-                    favorites: [data],
+                    favorites: arrayOfData,
                 });
         });
     }
@@ -106,6 +107,19 @@ class Profile extends Component {
     }
 
     render(){
+        
+        const localpicks = this.state.favorites.map(( pick, index ) => (
+            <LocalPick 
+                favorite={pick.favorite} 
+                phonenumber={pick.phonenumber} 
+                name={pick.name}
+                photo={pick.photo}
+                rating={pick.rating}
+                latitude={pick.latitude}
+                longitude={pick.longitude}
+                placeId={pick.placeId}
+            />
+        ));
 
         return(
             <View style={styles.profilepage}>
@@ -117,33 +131,35 @@ class Profile extends Component {
                         <Text>{`${this.state.location}, CA`}</Text>
                     </View>
                 </View>
-                { this.state.favorites.length == 0 ? (
-                    <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>Local picks go here..</Text>
-                    </View>
-                ) : (
-                    <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                        
-                    </View>
-                )}
-                { this.state.editProfile == true ? (
-                    <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} />
-                ) : (
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity 
-                            style={styles.signOutButton}
-                            onPress={this.editProfile}
-                        >
-                            <Text style={styles.signOutText}>Edit Profile</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={styles.signOutButton}
-                            onPress={this.signOutUser}
-                        >
-                            <Text style={styles.signOutText}>Sign Out</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}  
+                <ScrollView>
+                    { this.state.favorites.length == 0 ? (
+                        <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text>Local picks go here..</Text>
+                        </View>
+                    ) : (
+                        <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                            { localpicks }
+                        </View>
+                    )}
+                    { this.state.editProfile == true ? (
+                        <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} />
+                    ) : (
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity 
+                                style={styles.signOutButton}
+                                onPress={this.editProfile}
+                            >
+                                <Text style={styles.signOutText}>Edit Profile</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={styles.signOutButton}
+                                onPress={this.signOutUser}
+                            >
+                                <Text style={styles.signOutText}>Sign Out</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </ScrollView> 
             </View>
         );
     }
