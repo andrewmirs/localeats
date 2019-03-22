@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, ImageBackground, Text, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import styles from '../styles/profileStyles';
 
 class ProfileHeader extends Component {
@@ -15,7 +16,7 @@ class ProfileHeader extends Component {
 
                     <Text style={styles.name}>{this.props.firstname} {this.props.lastname}</Text>
                     <Text style={styles.username}>{this.props.username}</Text>
-                    <Text style={styles.location}>{this.props.location}</Text>
+                    <Text style={styles.location}><MaterialIcons name={`location-on`} size={14} color='white' /> {this.props.location}, CA</Text>
 
                 </View>
                 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Permissions, ImagePicker } from 'expo';
 import { auth, database, f, storage } from '../../config/config';
 import styles from '../styles/profileStyles';
 import EditProfile from './EditProfile';
@@ -139,7 +140,7 @@ class Profile extends Component {
         });
 
         if (!result.cancelled) {
-            this.setState({ 
+            this.setState({  
                 imageSelected: true,
                 imageId: this.uniqueId(),
                 uri: result.uri 
@@ -245,6 +246,7 @@ class Profile extends Component {
                 latitude={pick.latitude}
                 longitude={pick.longitude}
                 placeId={pick.placeId}
+                key={index}
             />
         ));
 
@@ -263,12 +265,12 @@ class Profile extends Component {
                             <Text>Local picks go here..</Text>
                         </View>
                     ) : (
-                        <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        <View style={{ paddingHorizontal: 20, paddingBottom: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                             { localpicks }
                         </View>
                     )}
                     { this.state.editProfile == true ? (
-                        <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} />
+                        <EditProfile cancelEdit={() => this.cancelEdit()} updateProfile={this.updateProfile} uploadImage={() => this._pickImage() }/>
                     ) : (
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity 

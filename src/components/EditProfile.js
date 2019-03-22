@@ -39,6 +39,12 @@ class EditProfile extends Component {
         return(
             <View style={fieldStyles.container}>
                 <Text style={styles.editTitle}>Edit Profile</Text>
+                <TouchableOpacity 
+                        onPress={this.props.uploadImage} 
+                        style={styles.acceptButton}
+                    >
+                        <Text style={styles.buttonText}>Change Photo</Text>
+                </TouchableOpacity>
                 <Field keyboardType="default" placeholder="First Name" component={renderField} name="firstname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Last Name" component={renderField} name="lastname" customStyles={fieldStyles.input} />
                 <Field keyboardType="default" placeholder="Username" component={renderField} name="username" autoCapitalize="none" customStyles={fieldStyles.input} />
