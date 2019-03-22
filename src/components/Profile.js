@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { auth, database, f } from '../../config/config';
+import { auth, database, f, storage } from '../../config/config';
 import styles from '../styles/profileStyles';
 import EditProfile from './EditProfile';
 import ProfileHeader from './ProfileHeader';
@@ -250,14 +250,14 @@ class Profile extends Component {
 
         return(
             <View style={styles.profilepage}>
-                <ProfileHeader
-                    avatar={this.state.avatar}
-                    firstname={this.state.firstname}
-                    lastname={this.state.lastname}
-                    username={this.state.username}
-                    location={this.state.location}
-                />
-                {/* <ScrollView>
+                    <ProfileHeader
+                        avatar={this.state.avatar}
+                        firstname={this.state.firstname}
+                        lastname={this.state.lastname}
+                        username={this.state.username}
+                        location={this.state.location}
+                    />
+                <ScrollView style={{ flex: 1 }}>
                     { this.state.favorites.length == 0 ? (
                         <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
                             <Text>Local picks go here..</Text>
@@ -285,7 +285,7 @@ class Profile extends Component {
                             </TouchableOpacity>
                         </View>
                     )}
-                </ScrollView>  */}
+                </ScrollView> 
             </View>
         );
     }
