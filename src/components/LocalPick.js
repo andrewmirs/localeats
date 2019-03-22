@@ -20,7 +20,7 @@ class LocalPick extends Component {
 
     render(){
         return(
-            <View key={this.props.key} style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5, marginTop: 10 }}>
+            <View style={{ width: width / 2 - 30, height: width / 2 - 30, borderWidth: 0.5, borderColor: '#dddddd', borderRadius: 5, marginTop: 10 }}>
                 <View style={{ flex: 1 }}>
                     <Image
                         style={{ flex: 1, width: null, height: null, resizeMode: 'cover',
