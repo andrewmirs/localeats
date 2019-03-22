@@ -54,13 +54,16 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+        paddingTop: 90,
+        paddingBottom: 20,
         backgroundColor: 'rgba(0,0,0, 0.5)',
     },
     location: {
         fontSize: 14,
         color: 'white',
-        fontWeight: '300'
+        fontWeight: '300',
+        paddingBottom: 40,
+        marginBottom: 10,
     },
     name: {
         marginTop: 20,

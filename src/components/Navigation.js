@@ -43,7 +43,7 @@ const ProfileStack = createStackNavigator({
   Profile: { 
     screen: Profile,
     navigationOptions: {
-      headerTitleStyle: {flex: 1, textAlign: 'center'},
+      header: null,
       },
     }
 });
