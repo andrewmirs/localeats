@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: 25,
-        color: 'white',
+        color: 'rgba(255,255,255,0.8)',
         fontFamily: 'lobster',
     },
     username: {

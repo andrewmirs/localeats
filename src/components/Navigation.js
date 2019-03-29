@@ -13,7 +13,7 @@ const HomeStack = createStackNavigator({
   Home: { 
     screen: Home,
     navigationOptions: {
-      headerTitleStyle: {flex: 1, textAlign: 'center'},
+      header: null,
       },
     }
 });
