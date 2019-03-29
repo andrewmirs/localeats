@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Notes from './Notes';
+import Feed from './Feed';
 
 
 class Home extends Component {
@@ -9,6 +9,7 @@ class Home extends Component {
         title: 'Local Picks',
         headerStyle: {
             backgroundColor: '#b23f2e',
+            fontFamily: 'horizon'
         },
         headerTintColor: '#fff',
     };
@@ -16,9 +17,7 @@ class Home extends Component {
     render() {
         return (
                 <View style={styles.homepage}>
-                    <View style={styles.textContainer}>
-                        <Text>Home Page!!</Text>
-                    </View>
+                    <Feed />
                 </View>
         );
     }
