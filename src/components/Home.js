@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { Header, Overlay } from 'react-native-elements';
+import AddPick from './AddPick';
 import Feed from './Feed';
 
 
@@ -34,21 +35,14 @@ class Home extends Component {
                     />
                     <Feed />
 
-                    <Overlay
+                    <AddPick
                         animationType="slide"
                         transparent={false}
-                        visible={this.state.modalVisible}
-                        onRequestClose={this.closeModal}
-                        windowBackgroundColor="rgba(0,0,0,0.7)"
+                        isVisible={this.state.modalVisible}
                         onBackdropPress={() => this.setState({ modalVisible: false })}
-                        containerStyle={{ padding: 0 }}
-                    >
-                    <View style={{ flex: 1 }}>
-                        <View style={{ width: '100%', height: 60, backgroundColor: '#b23f2e', flex: -1, alignItems: 'center', justifyContent: 'center', borderRadiusTop: 5 }}>
-                            <Text style={{ fontFamily: 'horizon', fontSize: 26, color: 'white' }}>Add Your Local Pick</Text>
-                        </View>
-                    </View>
-                    </Overlay>
+                        onRequestClose={() => this.setState({ modalVisible: false })}
+                        cancelModal={() => this.setState({ modalVisible: false })}
+                    />
 
                 </View>
         );
