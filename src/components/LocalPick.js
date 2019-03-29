@@ -29,7 +29,7 @@ class LocalPick extends Component {
                     />
                 </View>
                 <View style={{ flex: -1, alignItems: 'flex-start', justifyContent: 'space-evenly', paddingLeft: 10, paddingVertical: 5, backgroundColor: 'white' }}>
-                    <Text style={{ fontSize: 12, color: '#b63838'}}>Favorite {this.props.favorite}</Text>
+                    <Text style={{ fontSize: 12, color: '#b63838', fontFamily: 'lobster'}}>{this.props.favorite}</Text>
                     <Text style={{ fontSize: 11, fontWeight: 'bold' }}>{this.props.name}</Text>
                     <StarRating 
                         disabled={true}

@@ -20,19 +20,7 @@ const HomeStack = createStackNavigator({
 
 const FavoriteStack = createStackNavigator({
   Favorites: { 
-    screen: Favorites,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  GooglePlaces: { 
     screen: GooglePlaces,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  Notes: { 
-    screen: Notes,
     navigationOptions: {
       header: null,
     }
