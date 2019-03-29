@@ -9,6 +9,7 @@ class Home extends Component {
         title: 'Local Picks',
         headerStyle: {
             backgroundColor: '#b23f2e',
+            fontFamily: 'horizon'
         },
         headerTintColor: '#fff',
     };

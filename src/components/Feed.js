@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, Image, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ImageBackground, FlatList, StyleSheet, Text, View } from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
 
 class Feed extends Component {
@@ -36,14 +36,18 @@ class Feed extends Component {
                     renderItem={({ item, index }) => (
                         <View key={index} style={styles.pickComponent}>
                             <View style={styles.pickHeader}>
-                                <Text>Place</Text>
-                                <Text>@username</Text>
+                                <Text style={styles.place}>North Italia</Text>
+                                <Text style={styles.username}>@username</Text>
                             </View>
                             <View>
-                                <Image 
+                                <ImageBackground 
                                     source={{ uri: 'https://source.unsplash.com/random/500x'+Math.floor((Math.random() * 800) + 500) }}
                                     style={styles.image}
-                                />
+                                >
+                                    <View style={styles.titleContainer}>
+                                        <Text style={styles.titleText}>Brunch Spot</Text>
+                                    </View>
+                                </ImageBackground>
                             </View>
                             <View style={styles.pickFooter}>
                                 <FontAwesome name={`comments-o`} size={21} color='grey' onPress={() => alert('touched')} />
@@ -71,12 +75,12 @@ const styles = StyleSheet.create({
     image: {
         resizeMode: 'cover',
         width: '100%',
-        height: 275,
+        height: 225,
     },
     pickComponent: {
         width: '100%',
         overflow: 'hidden',
-        marginBottom: 5,
+        marginBottom: 1,
         justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderColor: 'grey',
@@ -86,12 +90,34 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-around',
+        backgroundColor: 'white',
     },
     pickHeader: {
         padding: 5,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        backgroundColor: 'darkgrey',
+    },
+    place: {
+        color: 'white',
+    },
+    titleContainer: {
+        width: '100%',
+        paddingTop: 2,
+        paddingBottom: 1,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    titleText: {
+        fontSize: 25,
+        color: 'white',
+        fontFamily: 'lobster',
+    },
+    username: {
+        fontWeight: 'bold',
+        color: 'white',
     },
 });
 
