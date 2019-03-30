@@ -259,10 +259,10 @@ class Profile extends Component {
                         username={this.state.username}
                         location={this.state.location}
                     />
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1, borderTopWidth: 3, borderColor: '#b23f2e' }}>
                     { this.state.favorites.length == 0 ? (
                         <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text>Local picks go here..</Text>
+                            <Text>Add your own Local Picks on the Home tab!</Text>
                         </View>
                     ) : (
                         <View style={{ paddingHorizontal: 20, paddingBottom: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>

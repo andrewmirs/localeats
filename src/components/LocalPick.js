@@ -52,6 +52,7 @@ class LocalPick extends Component {
                         <Ionicons name={`ios-pin`} size={18} color='grey' />
                     </TouchableOpacity>
                 </View>
+
                 <Popup
                     isVisible={this.state.isVisible}
                     onCancelPressed={() => this.setState({ isVisible: false })}
@@ -70,6 +71,7 @@ class LocalPick extends Component {
                     }}
                     style={{ /* Optional: you can override default style by passing your values. */ }}
                 />
+                
             </View>
         );
     }

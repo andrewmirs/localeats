@@ -41,7 +41,7 @@ class Home extends Component {
                         isVisible={this.state.modalVisible}
                         onBackdropPress={() => this.setState({ modalVisible: false })}
                         onRequestClose={() => this.setState({ modalVisible: false })}
-                        cancelModal={() => this.setState({ modalVisible: false })}
+                        closeModal={() => this.setState({ modalVisible: false })}
                     />
 
                 </View>
