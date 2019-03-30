@@ -1,25 +1,87 @@
 import React, { Component } from 'react';
-import { Dimensions, ImageBackground, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ImageBackground, FlatList, Linking, StyleSheet, Text, View } from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
+import { Popup } from 'react-native-map-link';
+import { auth, database, f } from '../../config/config';
+import { api_key } from '../../config/google_maps_api';
+
+
 
 class Feed extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            photo_feed: [0,1,2,3,4],
+            favorites_feed: [],
             refresh: false,
+            loading: true,
+            locationModalVisibile: false,
         }
     }
 
-    loadNew = () => {
+    componentDidMount = () => {
+
+        // Load Feed
+        this.loadFeed();
+
+    }
+
+    addToFlatList = (favorites_feed, data, fav) => {
+
+        var that = this;
+        var favObj = data[fav];
+        database.ref('users').child(favObj.author).once('value').then(function(snapshot) {
+            const exists = (snapshot.val() !== null);
+            if (exists) data = snapshot.val();
+                favorites_feed.push({
+                    id: fav,
+                    favorite: favObj.favorite,
+                    latitude: favObj.latitude,
+                    longitude: favObj.longitude,
+                    name: favObj.name,
+                    phonenumber: favObj.phonenumber,
+                    photo: favObj.photo,
+                    placeId: favObj.placeId,
+                    rating: favObj.rating,
+                    author: data.username,
+                });
+
+
+                that.setState({
+                    refresh: false,
+                    loading: false,
+                });
+
+        }).catch(error => console.log(error));
+    }
+
+    loadFeed = () => {
+        
         this.setState({
             refresh: true,
+            favorites_feed: [],
         });
-        this.setState({
-            photo_feed: [5,6,7,8,9],
-            refresh: false,
-        })
+
+        var that = this;
+        database.ref('favorites').once('value').then(function(snapshot) {
+            const exists = (snapshot.val() !== null);
+            if (exists) data = snapshot.val();
+                var favorites_feed = that.state.favorites_feed;
+
+                for(var fav in data){
+                   
+                    that.addToFlatList(favorites_feed, data, fav);
+
+                }
+        }).catch(error => console.log(error));
+
+    }
+
+    loadNew = () => {
+
+         // Load Feed
+         this.loadFeed();
+
     }
 
     render() {
@@ -27,36 +89,42 @@ class Feed extends Component {
         return(
             <View style={styles.feedContainer}>
 
-                <FlatList
-                    refreshing={this.state.refresh}
-                    onRefresh={this.loadNew}
-                    data={this.state.photo_feed}
-                    keyExtractor={(item, index) => index.toString()}
-                    style={styles.flatlist}
-                    renderItem={({ item, index }) => (
-                        <View key={index} style={styles.pickComponent}>
-                            <View style={styles.pickHeader}>
-                                <Text style={styles.place}>North Italia</Text>
-                                <Text style={styles.username}>@username</Text>
+                {this.state.loading == true ? (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>Loading...</Text>
+                    </View>
+                ) : (
+                    <FlatList
+                        refreshing={this.state.refresh}
+                        onRefresh={this.loadNew}
+                        data={this.state.favorites_feed}
+                        keyExtractor={(item, index) => index.toString()}
+                        style={styles.flatlist}
+                        renderItem={({ item, index }) => (
+                            <View key={index} style={styles.pickComponent}>
+                                <View style={styles.pickHeader}>
+                                    <Text style={styles.place}>{item.name}</Text>
+                                    <Text style={styles.username}>{item.author}</Text>
+                                </View>
+                                <View>
+                                    <ImageBackground 
+                                        source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.photo}&key=${api_key}`}}
+                                        style={styles.image}
+                                    >
+                                        <View style={styles.titleContainer}>
+                                            <Text style={styles.titleText}>{item.favorite}</Text>
+                                        </View>
+                                    </ImageBackground>
+                                </View>
+                                <View style={styles.pickFooter}>
+                                    <FontAwesome name={`comments-o`} size={21} color='grey' />
+                                    <Feather name={`phone`} size={20} color='grey' onPress={() => Linking.openURL(`tel:${item.phonenumber}`)} />
+                                    <Entypo name={`location-pin`} size={21} color='grey' />
+                                </View>
                             </View>
-                            <View>
-                                <ImageBackground 
-                                    source={{ uri: 'https://source.unsplash.com/random/500x'+Math.floor((Math.random() * 800) + 500) }}
-                                    style={styles.image}
-                                >
-                                    <View style={styles.titleContainer}>
-                                        <Text style={styles.titleText}>Brunch Spot</Text>
-                                    </View>
-                                </ImageBackground>
-                            </View>
-                            <View style={styles.pickFooter}>
-                                <FontAwesome name={`comments-o`} size={21} color='grey' onPress={() => alert('touched')} />
-                                <Feather name={`phone`} size={20} color='grey' />
-                                <Entypo name={`location-pin`} size={21} color='grey' />
-                            </View>
-                        </View>
-                    )}
-                />
+                        )}
+                    />
+                )}
                 
             </View>
         );

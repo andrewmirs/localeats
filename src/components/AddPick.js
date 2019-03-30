@@ -20,7 +20,7 @@ class AddPick extends Component {
             predictions: [],
             placeid: '',
             details: null,
-            comments: '',
+            caption: '',
         };
         this.onChangeLocationDebounced = _.debounce(this.onChangeLocation, 1000)
     }
@@ -80,17 +80,46 @@ class AddPick extends Component {
                 destination: json.result.name,
                 predictions: [],
             });
-            console.log(json);
         } catch (err) {
             console.log(err);
         }
     }
 
+    clearModal = () => {
+        const { closeModal } = this.props;
+        this.setState({
+            destination: null,
+            error: '',
+            favorite: '',
+            location: '',
+            predictions: [],
+            placeid: '',
+            details: null,
+            caption: '',
+        });
+        closeModal();
+    }
+
+    generateId = () => {
+       
+        var keys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-0123456789";
+    
+        var id = "";
+    
+        for (var i = 0; i < 30; i++) {
+        var random = Math.floor(Math.random() * keys.length);
+        id += keys[random];
+        }
+        return id;
+
+    }
+
     savePick = () => {
-        const { details, favorite, comments } = this.state;
+        const { details, favorite, caption} = this.state;
+        const favId = this.generateId();
 
         try {
-            f.database().ref('favorites/' + this.state.uid+'/' + favorite).set({
+            f.database().ref('favorites/' + favId).set({
                 favorite: favorite,
                 phonenumber: details.formatted_phone_number, 
                 name: details.name,
@@ -99,12 +128,15 @@ class AddPick extends Component {
                 latitude: details.geometry.location.lat,
                 longitude: details.geometry.location.lng,
                 placeId: details.place_id,
-                comments: comments,
+                caption: caption,
+                author: this.state.uid
             });
         }
         catch(err){
             console.log(err);
         }
+
+        this.clearModal();
 
     }
 
@@ -120,8 +152,6 @@ class AddPick extends Component {
                 <Text >{prediction.description}</Text>
             </TouchableOpacity>
         ));
-
-        const { onRequestClose } = this.props;
 
         return(
             <Overlay
@@ -163,8 +193,8 @@ class AddPick extends Component {
                         <Text>3. Leave a comment or feedback</Text>
                         <Textarea
                             placeholder={"Share some feedback.." }
-                            value={this.state.comments} 
-                            onChangeText={comments => this.setState({comments})}
+                            value={this.state.caption} 
+                            onChangeText={caption => this.setState({caption})}
                             style={styles.pickInput}
                             autoCapitalize={"sentences"}
                             containerStyle={styles.textareaContainer}
@@ -183,7 +213,7 @@ class AddPick extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity 
                                 style={{ width: '50%', height: '100%', backgroundColor: 'darkgrey', borderBottomRightRadius: 5, borderTopRightRadius: 5, justifyContent: 'center', alignItems: 'center' }}
-                                onPress={this.props.cancelModal}
+                                onPress={this.clearModal}
                             >
                                 <Text style={{ fontFamily: 'horizon', color: 'white' }}>Cancel</Text>
                             </TouchableOpacity>
