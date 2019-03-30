@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, ImageBackground, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ImageBackground, FlatList, Linking, StyleSheet, Text, View } from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
 import { Popup } from 'react-native-map-link';
 import { auth, database, f } from '../../config/config';
@@ -26,6 +26,35 @@ class Feed extends Component {
 
     }
 
+    addToFlatList = (favorites_feed, data, fav) => {
+
+        var that = this;
+        var favObj = data[fav];
+        database.ref('users').child(favObj.author).once('value').then(function(snapshot) {
+            const exists = (snapshot.val() !== null);
+            if (exists) data = snapshot.val();
+                favorites_feed.push({
+                    id: fav,
+                    favorite: favObj.favorite,
+                    latitude: favObj.latitude,
+                    longitude: favObj.longitude,
+                    name: favObj.name,
+                    phonenumber: favObj.phonenumber,
+                    photo: favObj.photo,
+                    placeId: favObj.placeId,
+                    rating: favObj.rating,
+                    author: data.username,
+                });
+
+
+                that.setState({
+                    refresh: false,
+                    loading: false,
+                });
+
+        }).catch(error => console.log(error));
+    }
+
     loadFeed = () => {
         
         this.setState({
@@ -34,37 +63,15 @@ class Feed extends Component {
         });
 
         var that = this;
-        database.ref('favorites').orderByChild('posted').once('value').then(function(snapshot) {
+        database.ref('favorites').once('value').then(function(snapshot) {
             const exists = (snapshot.val() !== null);
             if (exists) data = snapshot.val();
                 var favorites_feed = that.state.favorites_feed;
 
                 for(var fav in data){
-                    var favObj = data[fav];
-                    console.log(favObj);
-                    database.ref('users').child(favObj.author).once('value').then(function(snapshot) {
-                        const exists = (snapshot.val() !== null);
-                        if (exists) data = snapshot.val();
-                            favorites_feed.push({
-                                id: fav,
-                                favorite: favObj.favorite,
-                                latitude: favObj.latitude,
-                                longitude: favObj.longitude,
-                                name: favObj.name,
-                                phoneNumber: favObj.phoneNumber,
-                                photo: favObj.photo,
-                                placeId: favObj.placeId,
-                                rating: favObj.rating,
-                                author: data.username,
-                            });
+                   
+                    that.addToFlatList(favorites_feed, data, fav);
 
-
-                            that.setState({
-                                refresh: false,
-                                loading: false,
-                            });
-
-                    }).catch(error => console.log(error));
                 }
         }).catch(error => console.log(error));
 
@@ -97,7 +104,7 @@ class Feed extends Component {
                             <View key={index} style={styles.pickComponent}>
                                 <View style={styles.pickHeader}>
                                     <Text style={styles.place}>{item.name}</Text>
-                                    <Text style={styles.username}>{item.username}</Text>
+                                    <Text style={styles.username}>{item.author}</Text>
                                 </View>
                                 <View>
                                     <ImageBackground 
@@ -105,13 +112,13 @@ class Feed extends Component {
                                         style={styles.image}
                                     >
                                         <View style={styles.titleContainer}>
-                                            <Text style={styles.titleText}>Brunch Spot</Text>
+                                            <Text style={styles.titleText}>{item.favorite}</Text>
                                         </View>
                                     </ImageBackground>
                                 </View>
                                 <View style={styles.pickFooter}>
-                                    <FontAwesome name={`comments-o`} size={21} color='grey' onPress={() => alert('touched')} />
-                                    <Feather name={`phone`} size={20} color='grey' />
+                                    <FontAwesome name={`comments-o`} size={21} color='grey' />
+                                    <Feather name={`phone`} size={20} color='grey' onPress={() => Linking.openURL(`tel:${item.phonenumber}`)} />
                                     <Entypo name={`location-pin`} size={21} color='grey' />
                                 </View>
                             </View>
