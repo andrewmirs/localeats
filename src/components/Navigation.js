@@ -13,26 +13,14 @@ const HomeStack = createStackNavigator({
   Home: { 
     screen: Home,
     navigationOptions: {
-      headerTitleStyle: {flex: 1, textAlign: 'center'},
+      header: null,
       },
     }
 });
 
 const FavoriteStack = createStackNavigator({
   Favorites: { 
-    screen: Favorites,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  GooglePlaces: { 
     screen: GooglePlaces,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  Notes: { 
-    screen: Notes,
     navigationOptions: {
       header: null,
     }

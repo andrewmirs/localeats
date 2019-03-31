@@ -1,23 +1,49 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Header, Overlay } from 'react-native-elements';
+import AddPick from './AddPick';
 import Feed from './Feed';
 
 
 class Home extends Component {
 
-    static navigationOptions = {
-        title: 'Local Picks',
-        headerStyle: {
-            backgroundColor: '#b23f2e',
-            fontFamily: 'horizon'
-        },
-        headerTintColor: '#fff',
-    };
+    constructor(props){
+        super(props);
+
+        this.state = {
+            modalVisible: false,
+        }
+    }
+
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible});
+    }
 
     render() {
+
+        const { height, width } = Dimensions.get('window');
+
         return (
                 <View style={styles.homepage}>
+                    <Header
+                        leftComponent={{ color: '#fff' }}
+                        centerComponent={{ text: 'Local Picks', style: { color: '#fff', fontFamily: 'horizon', fontSize: 30 } }}
+                        rightComponent={{ icon: 'add', color: '#fff', onPress: () => this.setState({modalVisible: true}) }}
+                        containerStyle={{
+                            backgroundColor: '#b23f2e',
+                          }}
+                    />
                     <Feed />
+
+                    <AddPick
+                        animationType="slide"
+                        transparent={false}
+                        isVisible={this.state.modalVisible}
+                        onBackdropPress={() => this.setState({ modalVisible: false })}
+                        onRequestClose={() => this.setState({ modalVisible: false })}
+                        closeModal={() => this.setState({ modalVisible: false })}
+                    />
+
                 </View>
         );
     }

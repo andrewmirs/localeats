@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Dimensions, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import GooglePlaces from './GooglePlaces';
 
 
 class Favorites extends Component {

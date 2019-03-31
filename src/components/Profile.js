@@ -46,7 +46,7 @@ class Profile extends Component {
 
     fetchFavorites = (userId) => {
         var that = this;
-        database.ref('favorites').child(userId).once('value').then(function(snapshot){
+        database.ref('users').child(userId).child('favorites').once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 var arrayOfData = Object.values(data);
@@ -259,10 +259,11 @@ class Profile extends Component {
                         username={this.state.username}
                         location={this.state.location}
                     />
+                <View style={{ borderTopWidth: 5, borderColor: '#b23f2e', zIndex: 3 }}></View>
                 <ScrollView style={{ flex: 1 }}>
                     { this.state.favorites.length == 0 ? (
                         <View style={{ paddingHorizontal: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text>Local picks go here..</Text>
+                            <Text>Add your own Local Picks on the Home tab!</Text>
                         </View>
                     ) : (
                         <View style={{ paddingHorizontal: 20, paddingBottom: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
