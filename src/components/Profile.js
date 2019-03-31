@@ -46,7 +46,7 @@ class Profile extends Component {
 
     fetchFavorites = (userId) => {
         var that = this;
-        database.ref('favorites').child(userId).once('value').then(function(snapshot){
+        database.ref('users').child(userId).child('favorites').once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 var arrayOfData = Object.values(data);

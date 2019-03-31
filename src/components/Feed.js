@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { Dimensions, ImageBackground, FlatList, Linking, StyleSheet, Text, View } from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
-import { Popup } from 'react-native-map-link';
 import { auth, database, f } from '../../config/config';
 import { api_key } from '../../config/google_maps_api';
+import DirectionsPopup from './DirectionsPopup';
 
 
 
 class Feed extends Component {
     constructor(props){
         super(props);
+        this.popupModal = React.createRef();
 
         this.state = {
             favorites_feed: [],
             refresh: false,
             loading: true,
-            locationModalVisibile: false,
         }
     }
 
@@ -23,6 +23,21 @@ class Feed extends Component {
 
         // Load Feed
         this.loadFeed();
+
+    }
+
+    pluralCheck = (s) => {
+        if(s == 1){
+            return ' ago';
+        } else {
+            return 's ago';
+        }
+    }
+
+    timeConverter = (timestamp) => {
+
+        var a = new Date(timestamp * 1000);
+        var seconds = Math.floor((new Date() - a) / 1000);
 
     }
 
@@ -84,6 +99,10 @@ class Feed extends Component {
 
     }
 
+    handleClick = () => {
+        this.popupModal.current.modalOpen();
+    }
+
     render() {
 
         return(
@@ -103,7 +122,7 @@ class Feed extends Component {
                         renderItem={({ item, index }) => (
                             <View key={index} style={styles.pickComponent}>
                                 <View style={styles.pickHeader}>
-                                    <Text style={styles.place}>{item.name}</Text>
+                                    <Text style={styles.place}>Time Stamp</Text>
                                     <Text style={styles.username}>{item.author}</Text>
                                 </View>
                                 <View>
@@ -113,14 +132,25 @@ class Feed extends Component {
                                     >
                                         <View style={styles.titleContainer}>
                                             <Text style={styles.titleText}>{item.favorite}</Text>
+                                            <Text style={styles.subtitleText}>{item.name}</Text>
                                         </View>
                                     </ImageBackground>
                                 </View>
                                 <View style={styles.pickFooter}>
                                     <FontAwesome name={`comments-o`} size={21} color='grey' />
                                     <Feather name={`phone`} size={20} color='grey' onPress={() => Linking.openURL(`tel:${item.phonenumber}`)} />
-                                    <Entypo name={`location-pin`} size={21} color='grey' />
+                                    <Entypo name={`location-pin`} size={21} color='grey' onPress={() => this.handleClick() } />
                                 </View>
+
+                                <DirectionsPopup
+                                    ref={this.popupModal} 
+                                    name={item.name}
+                                    latitude={item.latitude}
+                                    longitude={item.longitude}
+                                    placeId={item.placeId}
+                                    isVisibile={this.state.isVisibile}
+                                />
+
                             </View>
                         )}
                     />
@@ -170,18 +200,26 @@ const styles = StyleSheet.create({
     place: {
         color: 'white',
     },
+    subtitleText: {
+        fontSize: 13,
+        color: 'rgba(255,255,255,0.85)',
+        paddingTop: 0,
+    },
     titleContainer: {
         width: '100%',
         paddingTop: 2,
-        paddingBottom: 1,
+        paddingBottom: 4,
         backgroundColor: 'rgba(0,0,0,0.4)',
         alignItems: 'center',
         marginTop: 20,
     },
     titleText: {
         fontSize: 25,
-        color: 'rgba(255,255,255,0.8)',
+        color: 'rgba(255,255,255,0.85)',
         fontFamily: 'lobster',
+        padding: 0,
+        margin: 0,
+        lineHeight: 28,
     },
     username: {
         fontWeight: 'bold',

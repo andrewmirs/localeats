@@ -117,6 +117,8 @@ class AddPick extends Component {
     savePick = () => {
         const { details, favorite, caption} = this.state;
         const favId = this.generateId();
+        let dateTime = Date.now();
+        const timestamp = Math.floor(dateTime / 1000);
 
         try {
             f.database().ref('favorites/' + favId).set({
@@ -129,7 +131,21 @@ class AddPick extends Component {
                 longitude: details.geometry.location.lng,
                 placeId: details.place_id,
                 caption: caption,
-                author: this.state.uid
+                author: this.state.uid,
+                posted: timestamp,
+            });
+            f.database().ref('users/' + this.state.uid + '/favorites/' + favId).set({
+                favorite: favorite,
+                phonenumber: details.formatted_phone_number, 
+                name: details.name,
+                photo: details.photos[0].photo_reference,
+                rating: details.rating,
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                placeId: details.place_id,
+                caption: caption,
+                author: this.state.uid,
+                posted: timestamp,
             });
         }
         catch(err){
