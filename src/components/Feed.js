@@ -39,6 +39,37 @@ class Feed extends Component {
         var a = new Date(timestamp * 1000);
         var seconds = Math.floor((new Date() - a) / 1000);
 
+        // Years
+        var interval = Math.floor(seconds / 31536000);
+        if(interval >= 1){
+            return interval + ' year' + this.pluralCheck(interval);
+        }
+
+        // Months
+        interval = Math.floor(seconds / 2592000);
+        if(interval >= 1){
+            return interval + ' month' + this.pluralCheck(interval);
+        }
+
+        // Days
+        interval = Math.floor(seconds / 86400);
+        if(interval >= 1){
+            return interval + ' day' + this.pluralCheck(interval);
+        }
+
+        // Hours
+        interval = Math.floor(seconds / 3600);
+        if(interval >= 1){
+            return interval + ' hour' + this.pluralCheck(interval);
+        }
+
+        // Minutes
+        interval = Math.floor(seconds / 60);
+        if(interval >= 1){
+            return interval + ' minute' + this.pluralCheck(interval);
+        }
+
+        return Math.floor(seconds) + ' second' + this.pluralCheck(seconds);
     }
 
     addToFlatList = (favorites_feed, data, fav) => {
@@ -56,6 +87,7 @@ class Feed extends Component {
                     name: favObj.name,
                     phonenumber: favObj.phonenumber,
                     photo: favObj.photo,
+                    posted: that.timeConverter(favObj.posted),
                     placeId: favObj.placeId,
                     rating: favObj.rating,
                     author: data.username,
@@ -78,7 +110,7 @@ class Feed extends Component {
         });
 
         var that = this;
-        database.ref('favorites').once('value').then(function(snapshot) {
+        database.ref('favorites').orderByChild('posted').once('value').then(function(snapshot) {
             const exists = (snapshot.val() !== null);
             if (exists) data = snapshot.val();
                 var favorites_feed = that.state.favorites_feed;
@@ -122,7 +154,7 @@ class Feed extends Component {
                         renderItem={({ item, index }) => (
                             <View key={index} style={styles.pickComponent}>
                                 <View style={styles.pickHeader}>
-                                    <Text style={styles.place}>Time Stamp</Text>
+                                    <Text style={styles.place}>{item.posted}</Text>
                                     <Text style={styles.username}>{item.author}</Text>
                                 </View>
                                 <View>
