@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Dimensions, ImageBackground, FlatList, Linking, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ImageBackground, FlatList, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
 import { auth, database, f } from '../../config/config';
 import { api_key } from '../../config/google_maps_api';
-import DirectionsPopup from './DirectionsPopup';
-
 
 
 class Feed extends Component {
@@ -86,6 +84,7 @@ class Feed extends Component {
                     longitude: favObj.longitude,
                     name: favObj.name,
                     phonenumber: favObj.phonenumber,
+                    url: favObj.url,
                     photo: favObj.photo,
                     posted: that.timeConverter(favObj.posted),
                     placeId: favObj.placeId,
@@ -131,8 +130,9 @@ class Feed extends Component {
 
     }
 
-    handleClick = () => {
-        this.popupModal.current.modalOpen();
+    userNameFix = (username) => {
+        var str = username.substr(1);
+        return str;
     }
 
     render() {
@@ -155,7 +155,10 @@ class Feed extends Component {
                             <View key={index} style={styles.pickComponent}>
                                 <View style={styles.pickHeader}>
                                     <Text style={styles.place}>{item.posted}</Text>
-                                    <Text style={styles.username}>{item.author}</Text>
+                                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <FontAwesome name={`user-circle-o`} size={14} color='white' />
+                                        <Text style={styles.username}> {this.userNameFix(item.author)}</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <View>
                                     <ImageBackground 
@@ -169,19 +172,16 @@ class Feed extends Component {
                                     </ImageBackground>
                                 </View>
                                 <View style={styles.pickFooter}>
-                                    <FontAwesome name={`comments-o`} size={21} color='grey' />
-                                    <Feather name={`phone`} size={20} color='grey' onPress={() => Linking.openURL(`tel:${item.phonenumber}`)} />
-                                    <Entypo name={`location-pin`} size={21} color='grey' onPress={() => this.handleClick() } />
+                                    <TouchableOpacity>
+                                        <FontAwesome name={`comments-o`} size={21} color='grey' />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity  onPress={() => Linking.openURL(`tel:${item.phonenumber}`)}>
+                                        <Feather name={`phone`} size={20} color='grey' />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity  onPress={() => Linking.openURL(item.url) }>
+                                        <Entypo name={`location-pin`} size={21} color='grey' />
+                                    </TouchableOpacity>
                                 </View>
-
-                                <DirectionsPopup
-                                    ref={this.popupModal} 
-                                    name={item.name}
-                                    latitude={item.latitude}
-                                    longitude={item.longitude}
-                                    placeId={item.placeId}
-                                    isVisibile={this.state.isVisibile}
-                                />
 
                             </View>
                         )}
