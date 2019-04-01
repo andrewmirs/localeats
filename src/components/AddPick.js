@@ -71,7 +71,7 @@ class AddPick extends Component {
         this.setState({
             placeid
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,geometry,photo,place_id,rating,website,id,formatted_phone_number`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${api_key}&placeid=${placeid}&fields=name,geometry,photo,url,place_id,rating,website,id,formatted_phone_number`;
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
@@ -115,7 +115,7 @@ class AddPick extends Component {
     }
 
     savePick = () => {
-        const { details, favorite, caption} = this.state;
+        const { details, favorite, caption } = this.state;
         const favId = this.generateId();
         let dateTime = Date.now();
         const timestamp = Math.floor(dateTime / 1000);
@@ -129,6 +129,7 @@ class AddPick extends Component {
                 rating: details.rating,
                 latitude: details.geometry.location.lat,
                 longitude: details.geometry.location.lng,
+                url: details.url,
                 placeId: details.place_id,
                 caption: caption,
                 author: this.state.uid,
@@ -142,6 +143,7 @@ class AddPick extends Component {
                 rating: details.rating,
                 latitude: details.geometry.location.lat,
                 longitude: details.geometry.location.lng,
+                url: details.url,
                 placeId: details.place_id,
                 caption: caption,
                 author: this.state.uid,
