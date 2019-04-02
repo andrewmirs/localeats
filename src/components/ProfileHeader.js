@@ -16,7 +16,9 @@ class ProfileHeader extends Component {
 
                     <Text style={styles.name}>{this.props.firstname} {this.props.lastname}</Text>
                     <Text style={styles.username}>{this.props.username}</Text>
-                    <Text style={styles.location}><MaterialIcons name={`location-on`} size={14} color='white' /> {this.props.location}, CA</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.location}><MaterialIcons name={`location-on`} size={14} color='white' /> {this.props.location}, CA</Text>
+                    </View>
 
                 </View>
                 

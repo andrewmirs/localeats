@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Feather } from '@expo/vector-icons'; // 6.2.2
 import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import Favorites from './Favorites';
+import Comments from './Comments';
 import GooglePlaces from './GooglePlaces';
 import Home from './Home';
-import Notes from './Notes';
 import Profile from './Profile';
+import UserProfile from './UserProfile';
 
 let IconComponent = Feather;
 
@@ -15,7 +15,22 @@ const HomeStack = createStackNavigator({
     navigationOptions: {
       header: null,
       },
-    }
+    },
+  User: { 
+    screen: UserProfile,
+    navigationOptions: {
+      header: null,
+      },
+    },
+  Comments: { 
+    screen: Comments,
+    navigationOptions: {
+      header: null,
+      },
+    },
+  }, {
+    initialRouteName: 'Home',
+    mode: 'modal',
 });
 
 const FavoriteStack = createStackNavigator({
@@ -33,8 +48,19 @@ const ProfileStack = createStackNavigator({
     navigationOptions: {
       header: null,
       },
-    }
+    },
 });
+
+// HomeStack.navigationOptions = ({ navigation }) => {
+//   let { routeName } = navigation.state.routes[navigation.state.index];
+//   let navigationOptions = {};
+
+//   if (routeName === 'Comments') {
+//       navigationOptions.tabBarVisible = false;
+//   }
+
+//   return navigationOptions;
+// };
 
 const TabNavigator = createBottomTabNavigator({
   Home: {

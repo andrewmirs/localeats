@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MapView from 'react-native-maps';
+import { auth, database, f } from '../../config/config';
 import { api_key } from '../../config/google_maps_api';
 import _ from 'lodash';
+import icon from '../../assets/images/localpick-icon.png';
 
 class GooglePlaces extends Component {
    
@@ -11,7 +13,7 @@ class GooglePlaces extends Component {
 
         this.state={
             error: '',
-            favorite: null,
+            favorites: [],
             latitude: 0,
             longitude: 0,
             location: '',
@@ -34,10 +36,21 @@ class GooglePlaces extends Component {
             { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
         );
 
-        const favorite = this.props.navigation.getParam('favorite', "Favorite param didn't make it");
-        this.setState({
-            favorite,
-        });
+        var that = this;
+        database.ref('favorites').orderByChild('posted').once('value').then(function(snapshot) {
+            const exists = (snapshot.val() !== null);
+            if (exists) data = snapshot.val();
+                var arrayOfData = [];
+
+                for(var fav in data){
+                   
+                    arrayOfData.push(data[fav]);
+
+                }
+                that.setState({
+                    favorites: arrayOfData,
+                });
+        }).catch(error => console.log(error));
     }
 
     onChangeLocation = async (location) => {
@@ -96,7 +109,36 @@ class GooglePlaces extends Component {
                         longitudeDelta: 0.0121,
                     }}
                     showsUserLocation={true}
-                />
+                >
+                    {this.state.favorites.map((marker, index)=>(
+                        <MapView.Marker
+                            coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
+                            key = {index}
+                            title = {marker.caption}
+                            
+                            // image = {icon}
+                        >
+                            <Image 
+                                source={icon}
+                                resizeMode='contain'
+                                style={{height: 40}}
+                            />
+                            <MapView.Callout
+                                tooltip={true}
+                            >
+                                <View style={styles.infoContainer}>
+                                    <View style={styles.infoHeader}>
+                                        <Text style={styles.category}>{marker.favorite}</Text>
+                                    </View>
+                                    <View style={styles.content}>
+                                        <Text style={styles.name}>{marker.name}</Text>
+                                        <Text style={styles.caption}>"{marker.caption}"</Text>
+                                    </View>
+                                </View>
+                            </MapView.Callout>
+                        </MapView.Marker>
+                    ))}
+                </MapView>
                 <TextInput 
                     placeholder="Search.." 
                     value={this.state.destination} 
@@ -116,6 +158,32 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
        ...StyleSheet.absoluteFillObject
+    },
+    caption: {
+        fontSize: 10,
+        alignItems: 'center',
+    },
+    category: {
+        fontFamily: 'lobster',
+        color: 'white',
+        padding: 5, 
+    },
+    content: {
+        backgroundColor: 'white',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        padding: 5,
+    },
+    infoContainer: {
+        flex: 1,
+        borderRadius: 10,
+    },
+    infoHeader: {
+        backgroundColor: 'black',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     locationInput: {
         height: 40,
@@ -144,6 +212,11 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+    },
+    name: {
+        color: '#b23f2e',
+        fontSize: 10,
+        fontWeight: 'bold',
     },
     suggestions: {
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
