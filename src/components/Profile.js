@@ -53,7 +53,6 @@ class Profile extends Component {
             if(exists) data = snapshot.val();
             var arrayOfData = [];
                 for(var user in data){
-                    console.log(user.author);
                     if (data[user].author == userId){
                         arrayOfData.push(data[user]);
                     }
@@ -159,7 +158,6 @@ class Profile extends Component {
         });
         this.uploadImage(this.state.uri);
         } else{
-            console.log('cancel');
             this.setState({
                 imageSelected: false
             })
@@ -195,11 +193,9 @@ class Profile extends Component {
 
     //once file is formatted it is sent to firebase storage and a url is saved to firebase database
     completeUploadBlob = (blob, FilePath) => {
-        console.log('blob', blob)
         var that = this;
         var userid = f.auth().currentUser.uid;
         var currentAvatar = that.state.currentImg
-        console.log('filepath ', FilePath)
         // var imageId = this.state.imageId;
 
         var uploadTask = storage.ref('user/'+userid+'/img').child(FilePath).put(blob);
@@ -220,7 +216,6 @@ class Profile extends Component {
             if(currentAvatar){
                 storage.ref('user/'+userid+'/img/').child(currentAvatar).delete().then(function(){
                     that.processUpload(downloadURL)
-                    console.log('delete success')
                 }).catch(function(error){
                     console.log(error)
                 })

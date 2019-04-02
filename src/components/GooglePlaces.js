@@ -118,11 +118,24 @@ class GooglePlaces extends Component {
                             
                             // image = {icon}
                         >
-                        <Image 
-                            source={icon}
-                            resizeMode='contain'
-                            style={{height: 40}}
-                        />
+                            <Image 
+                                source={icon}
+                                resizeMode='contain'
+                                style={{height: 40}}
+                            />
+                            <MapView.Callout
+                                tooltip={true}
+                            >
+                                <View style={styles.infoContainer}>
+                                    <View style={styles.infoHeader}>
+                                        <Text style={styles.category}>{marker.favorite}</Text>
+                                    </View>
+                                    <View style={styles.content}>
+                                        <Text style={styles.name}>{marker.name}</Text>
+                                        <Text style={styles.caption}>"{marker.caption}"</Text>
+                                    </View>
+                                </View>
+                            </MapView.Callout>
                         </MapView.Marker>
                     ))}
                 </MapView>
@@ -145,6 +158,32 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
        ...StyleSheet.absoluteFillObject
+    },
+    caption: {
+        fontSize: 10,
+        alignItems: 'center',
+    },
+    category: {
+        fontFamily: 'lobster',
+        color: 'white',
+        padding: 5, 
+    },
+    content: {
+        backgroundColor: 'white',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        padding: 5,
+    },
+    infoContainer: {
+        flex: 1,
+        borderRadius: 10,
+    },
+    infoHeader: {
+        backgroundColor: 'black',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     locationInput: {
         height: 40,
@@ -173,6 +212,11 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+    },
+    name: {
+        color: '#b23f2e',
+        fontSize: 10,
+        fontWeight: 'bold',
     },
     suggestions: {
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
