@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { auth, databse, f } from '../../config/config';
 import {
   ActivityIndicator,
-  AsyncStorage,
-  Button,
+  Image,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
+import Icon from '../../assets/images/localpick-icon.png';
 
 
 class AuthLoadingScreen extends Component {
@@ -22,9 +22,13 @@ class AuthLoadingScreen extends Component {
     // Render any loading content that you like here
     render() {
       return (
-        <View style={styles.container}>
-          <ActivityIndicator />
-          <StatusBar barStyle="default" />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Image 
+              source={Icon}
+              resizeMode='contain'
+              style={{ height: 150, marginBottom: 30 }}
+          />
+          <ActivityIndicator size="large" color="#b23f2e" />
         </View>
       );
     }

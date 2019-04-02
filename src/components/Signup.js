@@ -20,7 +20,6 @@ class Signup extends Component {
     }
 
     registerUser = ( email, password, firstname, lastname, username, location ) => {
-        console.log('Im in the register function:', firstname, lastname, email, password)
         let un = username.toLowerCase();
         f.auth().createUserWithEmailAndPassword(email, password)
         .then((res) => {

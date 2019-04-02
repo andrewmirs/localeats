@@ -35,7 +35,6 @@ class Landing extends Component {
                 that.setState({ 
                     loggedin: false
                 });
-                console.log('Logged out!');
             }
         });
     }
@@ -45,7 +44,6 @@ class Landing extends Component {
         if(email !== '' && password !== ''){
             try {
                 let user = await auth.signInWithEmailAndPassword(email, password);
-                console.log(user);
             } catch(err) {
                 alert('Unauthorized: Either your email or password was incorrect. Please try again.');
             }

@@ -98,8 +98,6 @@ class GooglePlaces extends Component {
             </TouchableOpacity>
         ));
 
-        console.log('Google Map favorites array:', this.state.favorites);
-
         return (
             <View style={styles.container}>
                 <MapView

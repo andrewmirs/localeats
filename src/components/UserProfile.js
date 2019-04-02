@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Permissions, ImagePicker } from 'expo';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, database, f, storage } from '../../config/config';
+import { Ionicons } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 import styles from '../styles/profileStyles';
-import EditProfile from './EditProfile';
 import ProfileHeader from './ProfileHeader';
 import LocalPick from './LocalPick';
+import Icon from '../../assets/images/localpick-icon.png';
 
-class Profile extends Component {
+
+class UserProfile extends Component {
 
     static navigationOptions = {
         title: 'Profile',
@@ -24,48 +26,55 @@ class Profile extends Component {
             firstname: '',
             lastname: '',
             location: '',
-            userId: '',
+            uid: '',
             username: '',
             loggedin: false,
             editProfile: false,
             favorites: [],
+            loading: true,
         }
     }
 
     componentDidMount = () => {
-        const that = this;
-        f.auth().onAuthStateChanged(function(user) {
-            if(user){
-                that.fetchUserInfo(user.uid);
-                that.fetchFavorites(user.uid);
-            } else {
-                console.log('No user data! Either not logged in or database error')
-            }
-        });
+        this.checkParams();
     }
 
-    fetchFavorites = (userId) => {
+    checkParams =()=> {
+        const params = this.props.navigation.state.params;
+        if(params){
+            if(params.uid){
+                this.setState({
+                    uid: params.uid,
+                });
+                this.fetchUserInfo(params.uid);
+                this.fetchFavorites(params.uid);
+            } 
+        }
+    }
+
+
+    fetchFavorites = (uid) => {
         var that = this;
-        database.ref('users').child(userId).child('favorites').once('value').then(function(snapshot){
+        database.ref('users').child(uid).child('favorites').once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
             var arrayOfData = [];
                 for(var user in data){
-                    console.log(user.author);
-                    if (data[user].author == userId){
+                    if (data[user].author == uid){
                         arrayOfData.push(data[user]);
                     }
                 }
                 
                 that.setState({
                     favorites: arrayOfData,
+                    loading: false,
                 });
         });
     }
 
-    fetchUserInfo = (userId) => {
+    fetchUserInfo = (uid) => {
         var that = this;
-        database.ref('users').child(userId).once('value').then(function(snapshot){
+        database.ref('users').child(uid).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 that.setState({
@@ -74,46 +83,14 @@ class Profile extends Component {
                     username: data.username,
                     location: data.location,
                     avatar: data.avatar,
-                    userId: userId,
+                    uid: uid,
                     loggedin: true,
+                    loading: false,
                 });
         });
     }
 
-    signOutUser = () => {
-        auth.signOut()
-        .then(() => {
-            this.props.navigation.navigate('Landing');
-            console.log('Signed out!!!')
-        }).catch((err) => {
-            console.log('Error', err);
-        }); 
-    }
 
-    editProfile = () => {
-        this.setState({
-            editProfile: true,
-        })
-    }
-
-    cancelEdit = () => {
-        this.setState({
-            editProfile: false,
-        })
-    }
-
-    updateProfile = (firstname, lastname, username) => {
-
-        var un = username.toLowerCase();
-        database.ref('users').child(this.state.userId).child('firstname').set(firstname);
-        database.ref('users').child(this.state.userId).child('lastname').set(lastname);
-        database.ref('users').child(this.state.userId).child('username').set(`@${un}`);
-        this.setState({
-            editProfile: false,
-        })
-        this.fetchUserInfo(this.state.userId);
-        
-    }
 
     render(){
         
@@ -132,7 +109,25 @@ class Profile extends Component {
         ));
 
         return(
-            <View style={styles.profilepage}>
+            <View style={{ flex: 1 }}>
+                {this.state.loading == true ? (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image 
+                            source={Icon}
+                            resizeMode='contain'
+                            style={{ height: 150, marginBottom: 30 }}
+                        />
+                        <ActivityIndicator size="large" color="#b23f2e" />
+                    </View>
+                ) : (
+                <View style={styles.profilepage}>
+                    <TouchableOpacity
+                        style={{ position: 'absolute', top: 35, left: 25, zIndex: 10 }}
+                        onPress={() => this.props.navigation.goBack()}
+                    >
+                        <Ionicons name={`md-arrow-round-back`} size={30} color='white' />
+                    </TouchableOpacity>
+
                     <ProfileHeader
                         avatar={this.state.avatar}
                         firstname={this.state.firstname}
@@ -140,23 +135,26 @@ class Profile extends Component {
                         username={this.state.username}
                         location={this.state.location}
                     />
-                <View style={{ borderTopWidth: 5, borderColor: '#b23f2e', zIndex: 3 }}></View>
-                <ScrollView style={{ flex: 1 }}>
-                
-                    { this.state.favorites.length == 0 ? (
-                        <View style={{ paddingVertical: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text >Add your own Local Picks on the <Text style={{fontWeight: 'bold'}}>Home</Text> tab!</Text>
-                        </View>
-                    ) : (
-                        <View style={{ paddingHorizontal: 20, paddingBottom: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                            { localpicks }
-                        </View>
-                    )}
-        
-                </ScrollView> 
+
+                    <View style={{ borderTopWidth: 5, borderColor: '#b23f2e', zIndex: 3 }}></View>
+                    <ScrollView style={{ flex: 1 }}>
+                    
+                        { this.state.favorites.length == 0 ? (
+                            <View style={{ paddingVertical: 20, marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>{this.state.username} hasn't added any picks yet.</Text>
+                            </View>
+                        ) : (
+                            <View style={{ paddingHorizontal: 20, paddingBottom: 20, marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                { localpicks }
+                            </View>
+                        )}
+            
+                    </ScrollView>
+                </View>
+                )}
             </View>
         );
     }
 }
 
-export default Profile;
+export default UserProfile;
