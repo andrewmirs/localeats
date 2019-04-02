@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Dimensions, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { Header, Overlay } from 'react-native-elements';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Header } from 'react-native-elements';
 import AddPick from './AddPick';
 import Feed from './Feed';
 
@@ -19,6 +19,10 @@ class Home extends Component {
         this.setState({modalVisible: visible});
     }
 
+    navToUserProfile = (uid) => {
+        this.props.navigation.navigate('User', { uid: uid })
+    }
+
     render() {
 
         const { height, width } = Dimensions.get('window');
@@ -33,7 +37,7 @@ class Home extends Component {
                             backgroundColor: '#b23f2e',
                           }}
                     />
-                    <Feed />
+                    <Feed navToUserProfile={this.navToUserProfile} />
 
                     <AddPick
                         animationType="slide"

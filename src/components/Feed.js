@@ -90,6 +90,7 @@ class Feed extends Component {
                     placeId: favObj.placeId,
                     rating: favObj.rating,
                     author: data.username,
+                    uid: favObj.author,
                 });
 
 
@@ -155,7 +156,10 @@ class Feed extends Component {
                             <View key={index} style={styles.pickComponent}>
                                 <View style={styles.pickHeader}>
                                     <Text style={styles.place}>{item.posted}</Text>
-                                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <TouchableOpacity 
+                                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                                        onPress={ () => this.props.navToUserProfile(item.uid) }
+                                    >
                                         <FontAwesome name={`user-circle-o`} size={14} color='white' />
                                         <Text style={styles.username}> {this.userNameFix(item.author)}</Text>
                                     </TouchableOpacity>

@@ -28,11 +28,10 @@ const HomeStack = createStackNavigator({
       header: null,
       },
     },
-  },
-  {
+  }, {
     initialRouteName: 'Home',
-  }
-  );
+    mode: 'modal',
+});
 
 const FavoriteStack = createStackNavigator({
   Favorites: { 
@@ -49,8 +48,19 @@ const ProfileStack = createStackNavigator({
     navigationOptions: {
       header: null,
       },
-    }
+    },
 });
+
+// HomeStack.navigationOptions = ({ navigation }) => {
+//   let { routeName } = navigation.state.routes[navigation.state.index];
+//   let navigationOptions = {};
+
+//   if (routeName === 'Comments') {
+//       navigationOptions.tabBarVisible = false;
+//   }
+
+//   return navigationOptions;
+// };
 
 const TabNavigator = createBottomTabNavigator({
   Home: {
