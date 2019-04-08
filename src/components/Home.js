@@ -20,9 +20,13 @@ class Home extends Component {
     }
 
     navToUserProfile = (uid) => {
-        this.props.navigation.navigate('User', { uid: uid })
+        this.props.navigation.navigate('User', { uid: uid });
     }
 
+    navToComments = () => {
+        this.props.navigation.navigate('Comments');
+    }
+    
     render() {
 
         const { height, width } = Dimensions.get('window');
@@ -37,7 +41,7 @@ class Home extends Component {
                             backgroundColor: '#b23f2e',
                           }}
                     />
-                    <Feed navToUserProfile={this.navToUserProfile} />
+                    <Feed navToUserProfile={this.navToUserProfile} navToComments={this.navToComments} />
 
                     <AddPick
                         animationType="slide"
