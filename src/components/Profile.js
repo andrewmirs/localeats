@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withNavigationFocus } from 'react-navigation';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Permissions, ImagePicker } from 'expo';
 import { auth, database, f, storage } from '../../config/config';
@@ -44,6 +45,12 @@ class Profile extends Component {
                 console.log('No user data! Either not logged in or database error')
             }
         });
+    }
+
+    componentDidUpdate = (prevProps) => {
+        if(prevProps.isFocused !== this.props.isFocused){
+            this.fetchFavorites(this.state.userId);
+        }
     }
 
     fetchFavorites = (userId) => {
@@ -315,4 +322,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default withNavigationFocus(Profile);
