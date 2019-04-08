@@ -176,7 +176,7 @@ class Feed extends Component {
                                     </ImageBackground>
                                 </View>
                                 <View style={styles.pickFooter}>
-                                    <TouchableOpacity onPress={ () => this.props.navToComments() }>
+                                    <TouchableOpacity onPress={ () => this.props.navToComments(item.id) }>
                                         <FontAwesome name={`comments-o`} size={21} color='grey' />
                                     </TouchableOpacity>
                                     <TouchableOpacity  onPress={ () => Linking.openURL(`tel:${item.phonenumber}`) }>

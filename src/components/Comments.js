@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Image, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Header } from 'react-native-elements';
+import { Icon } from 'react-native-elements'
 import { auth, database, f, storage } from '../../config/config';
 
 
@@ -18,7 +20,7 @@ class Comments extends Component {
         this.checkParams();
     }
 
-    checkParams =()=> {
+    checkParams = () => {
         const params = this.props.navigation.state.params;
         if(params){
             if(params.favId){
@@ -30,8 +32,32 @@ class Comments extends Component {
         }
     }
 
+    addCommentToList = (comments_list, data, comment) => {
+        console.log(comments_list, data, comment);
+    }
+
     fetchComments = (favId) => {
-        // fetch comments based on favorites id
+
+        var that = this;
+
+        database.ref('comments').child(favId).orderByChild('posted').once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists){
+                data = snapshot.val();
+                var comments_list = that.state.comments_list;
+
+                for( var comment in data ){
+                    that.addCommentToList(comments_list, data, comment);
+                }
+
+
+            } else {
+                // no comments found
+                that.setState({
+                    comments_list: [],
+                });
+            }
+        }).catch(error => console.log(error));
     }
 
     s4 = () => {
@@ -94,9 +120,14 @@ class Comments extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text>Comments Page</Text>
-                </View>
+                 <Header
+                        leftComponent={{ icon: 'arrow-back', color: '#fff', onPress: () => this.props.navigation.goBack() }}
+                        centerComponent={{ text: 'Comments', style: { color: '#fff', fontFamily: 'horizon', fontSize: 30 } }}
+                        rightComponent={{ color: '#fff' }}
+                        containerStyle={{
+                            backgroundColor: '#b23f2e',
+                          }}
+                    />
                 <View>
                     { this.state.comments_list.length == 0 ? (
                         // no comments show empty state
