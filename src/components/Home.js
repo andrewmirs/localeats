@@ -23,8 +23,8 @@ class Home extends Component {
         this.props.navigation.navigate('User', { uid: uid });
     }
 
-    navToComments = () => {
-        this.props.navigation.navigate('Comments');
+    navToComments = (id) => {
+        this.props.navigation.navigate('Comments', { favId: id } );
     }
     
     render() {
