@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Image, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
-import { Icon } from 'react-native-elements'
 import { auth, database, f, storage } from '../../config/config';
 
 
@@ -38,7 +37,7 @@ class Comments extends Component {
         
         var that = this;
         var commentObj = data[comment];
-        database.ref('users').child(commentObj.author).child('username').once('value').then(function(snapshot){
+        database.ref('users').child(commentObj.author).once('value').then(function(snapshot){
 
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
@@ -47,7 +46,8 @@ class Comments extends Component {
                     id: comment,
                     comment: commentObj.comment,
                     posted: that.timeConverter(commentObj.posted),
-                    author: data,
+                    author: data.username,
+                    authorAvatar: data.avatar,
                     authorId: commentObj.author,
                 });
 
@@ -143,8 +143,6 @@ class Comments extends Component {
 
     render() {
 
-        console.log(this.state.comments_list);
-
         return (
             <View style={{ flex: 1 }}>
                  <Header
@@ -166,20 +164,62 @@ class Comments extends Component {
                             keyExtractor={( item, index ) => index.toString()}
                             style={{ flex: 1, backgroundColor: '#eee'}}
                             renderItem={({ item, index }) => (
-                                <View key={index} style={{ width: '100%', overflow: 'hidden', marginBottom: 5, justifyContent: 'space-between', borderBottomWidth: 1, borderColor: 'grey' }}>
-                                    <View>
-                                        <Text>{item.posted}</Text>
-                                    </View>
+                                <View key={index} style={styles.commentContainer}>
+                                    
                                     <TouchableOpacity>
-                                        <Text>{item.author}</Text>
+                                        <Image source={{ uri: `${item.authorAvatar}`}} style={{ height: 50, width: 50, borderRadius: 100, borderWidth: 1, borderColor: 'black', margin: 5 }} />
                                     </TouchableOpacity>
+                                    <View style={{ justifyContent: 'center', alignItems: 'flex-start'}}>
+                                        <Text>{item.comment}</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 2, paddingRight: 4 }}>
+                                        <Text style={{ fontSize: 8, color: 'grey' }}>{item.posted}</Text>
+                                    </View>
+
                                 </View>
                             )}
                         />
                     )}
+                    <KeyboardAvoidingView behavior={null} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'grey', padding: 10, marginBottom: 15}} enabled>
+                        <View>
+                            <TextInput 
+                                editable={true}
+                                placeholder={'Add a comment..'}
+                                onChangeText={(text) => this.setState({comment: text})}
+                                style={{ marginVertical: 10, height: 10, padding: 5, borderColor: 'grey', borderRadius: 3, backgroundColor: 'white', color: 'black' }}
+                            />
+                            <TouchableOpacity onPress={() => alert('Comment Posted')}>
+                                <Text>Post</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </KeyboardAvoidingView>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    commentContainer: {
+        width: '96%', 
+        marginHorizontal: '2%', 
+        flexDirection: 'row', 
+        overflow: 'hidden', 
+        justifyContent: 'space-between', 
+        backgroundColor: 'white', 
+        borderRadius: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+        paddingVertical: 5,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+});
 
 export default Comments;
