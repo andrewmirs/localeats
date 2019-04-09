@@ -12,6 +12,8 @@ class Comments extends Component {
 
         this.state = {
             comments_list: [],
+            refresh: false,
+            loading: true,
         }
 
     }
@@ -33,7 +35,29 @@ class Comments extends Component {
     }
 
     addCommentToList = (comments_list, data, comment) => {
-        console.log(comments_list, data, comment);
+        
+        var that = this;
+        var commentObj = data[comment];
+        database.ref('users').child(commentObj.author).child('username').once('value').then(function(snapshot){
+
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+
+                comments_list.push({
+                    id: comment,
+                    comment: commentObj.comment,
+                    posted: that.timeConverter(commentObj.posted),
+                    author: data,
+                    authorId: commentObj.author,
+                });
+
+                that.setState({
+                    refresh: false,
+                    loading: false,
+                });
+
+        }).catch(error => console.log(error));
+
     }
 
     fetchComments = (favId) => {
@@ -118,6 +142,9 @@ class Comments extends Component {
     }
 
     render() {
+
+        console.log(this.state.comments_list);
+
         return (
             <View style={{ flex: 1 }}>
                  <Header
@@ -128,17 +155,28 @@ class Comments extends Component {
                             backgroundColor: '#b23f2e',
                           }}
                     />
-                <View>
                     { this.state.comments_list.length == 0 ? (
                         // no comments show empty state
-                        <Text>no comments found</Text>
+                        <Text>No comments found..</Text>
                     ) : (
                         // comments available
-                        <FlatList 
+                        <FlatList
+                            refreshing={this.state.refresh} 
                             data={this.state.comments_list}
+                            keyExtractor={( item, index ) => index.toString()}
+                            style={{ flex: 1, backgroundColor: '#eee'}}
+                            renderItem={({ item, index }) => (
+                                <View key={index} style={{ width: '100%', overflow: 'hidden', marginBottom: 5, justifyContent: 'space-between', borderBottomWidth: 1, borderColor: 'grey' }}>
+                                    <View>
+                                        <Text>{item.posted}</Text>
+                                    </View>
+                                    <TouchableOpacity>
+                                        <Text>{item.author}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
                         />
                     )}
-                </View>
             </View>
         );
     }
