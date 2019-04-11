@@ -239,15 +239,17 @@ class Comments extends Component {
                         )}
                     />
                 )}
-                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'grey', padding: 10, marginBottom: 15}} keyboardVerticalOffset={80}>
+                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'lightgrey', padding: 10, marginBottom: 15 }}>
                     <View>
                         <TextInput 
                             editable={true}
                             placeholder={'Add a comment..'}
                             onChangeText={(text) => this.setState({comment: text})}
-                            style={{ marginVertical: 10, height: 10, padding: 5, borderColor: 'grey', borderRadius: 3, backgroundColor: 'white', color: 'black' }}
+                            style={{ marginVertical: 10, height: 50, padding: 5, borderColor: 'lightgrey', borderWidth: 1, borderRadius: 3, backgroundColor: 'white', color: 'black' }}
                         />
-                        <TouchableOpacity onPress={() => alert('Comment Posted')}>
+                        <TouchableOpacity 
+                            onPress={() => alert('Comment Posted')}  
+                        >
                             <Text>Post</Text>
                         </TouchableOpacity>
                     </View>
