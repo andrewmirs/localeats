@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Image, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import { auth, database, f, storage } from '../../config/config';
+import { api_key } from '../../config/google_maps_api';
 
 
 class Comments extends Component {
@@ -29,6 +30,7 @@ class Comments extends Component {
                     favId: params.favId,
                 });
                 this.fetchComments(params.favId);
+                this.fetchFavoriteInfo(params.favId);
             } 
         }
     }
@@ -56,6 +58,44 @@ class Comments extends Component {
                     loading: false,
                 });
 
+        }).catch(error => console.log(error));
+
+    }
+
+    fetchAvatar = (author) => {
+
+        var that = this;
+
+        database.ref('users').child(author).once('value').then(function(snapshot){
+
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+                const username = that.userNameFix(data.username);
+                that.setState({
+                    fav_author_avatar: data.avatar,
+                    fav_author: username,
+                });
+
+        }).catch(error => console.log(error));       
+
+    }
+
+    fetchFavoriteInfo = (favId) => {
+        
+        var that = this;
+
+        database.ref('favorites').child(favId).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists){
+                data = snapshot.val();
+                that.fetchAvatar(data.author);
+
+                that.setState({
+                    fav_photo: data.photo,
+                    fav_favorite: data.favorite,
+                    fav_caption: data.caption,
+                });
+            }
         }).catch(error => console.log(error));
 
     }
@@ -141,58 +181,77 @@ class Comments extends Component {
         return Math.floor(seconds) + ' second' + this.pluralCheck(seconds);
     }
 
+    userNameFix = (username) => {
+        var str = username.substr(1);
+        return str;
+    }
+
     render() {
 
         return (
             <View style={{ flex: 1 }}>
-                 <Header
-                        leftComponent={{ icon: 'arrow-back', color: '#fff', onPress: () => this.props.navigation.goBack() }}
-                        centerComponent={{ text: 'Comments', style: { color: '#fff', fontFamily: 'horizon', fontSize: 30 } }}
-                        rightComponent={{ color: '#fff' }}
-                        containerStyle={{
-                            backgroundColor: '#b23f2e',
-                          }}
-                    />
-                    { this.state.comments_list.length == 0 ? (
-                        // no comments show empty state
-                        <Text>No comments found..</Text>
-                    ) : (
-                        // comments available
-                        <FlatList
-                            refreshing={this.state.refresh} 
-                            data={this.state.comments_list}
-                            keyExtractor={( item, index ) => index.toString()}
-                            style={{ flex: 1, backgroundColor: '#eee'}}
-                            renderItem={({ item, index }) => (
-                                <View key={index} style={styles.commentContainer}>
-                                    
-                                    <TouchableOpacity>
-                                        <Image source={{ uri: `${item.authorAvatar}`}} style={{ height: 50, width: 50, borderRadius: 100, borderWidth: 1, borderColor: 'black', margin: 5 }} />
-                                    </TouchableOpacity>
-                                    <View style={{ justifyContent: 'center', alignItems: 'flex-start'}}>
-                                        <Text>{item.comment}</Text>
-                                    </View>
-                                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 2, paddingRight: 4 }}>
-                                        <Text style={{ fontSize: 8, color: 'grey' }}>{item.posted}</Text>
-                                    </View>
-
-                                </View>
-                            )}
-                        />
-                    )}
-                    <KeyboardAvoidingView behavior={null} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'grey', padding: 10, marginBottom: 15}} enabled>
+                <Header
+                    leftComponent={{ icon: 'arrow-back', color: '#fff', onPress: () => this.props.navigation.goBack() }}
+                    centerComponent={{ text: 'Comments', style: { color: '#fff', fontFamily: 'horizon', fontSize: 30 } }}
+                    rightComponent={{ color: '#fff' }}
+                    containerStyle={{
+                        backgroundColor: '#b23f2e',
+                        }}
+                />
+                <ImageBackground 
+                    source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.fav_photo}&key=${api_key}`}}
+                    style={styles.favImage}
+                >
+                    <View style={{ backgroundColor: 'rgba(0,0,0,0.8)', height: 150, width: '100%', flexDirection: 'row', alignItems: 'center' }}>
                         <View>
-                            <TextInput 
-                                editable={true}
-                                placeholder={'Add a comment..'}
-                                onChangeText={(text) => this.setState({comment: text})}
-                                style={{ marginVertical: 10, height: 10, padding: 5, borderColor: 'grey', borderRadius: 3, backgroundColor: 'white', color: 'black' }}
-                            />
-                            <TouchableOpacity onPress={() => alert('Comment Posted')}>
-                                <Text>Post</Text>
-                            </TouchableOpacity>
+                         <Image source={{ uri: `${this.state.fav_author_avatar}`}} style={{ height: 85, width: 85, borderRadius: 100, borderWidth: 2, borderColor: 'black', marginLeft: 10 }} />
                         </View>
-                    </KeyboardAvoidingView>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                            <Text style={{ fontSize: 18, color: 'white' }}>"{this.state.fav_caption}"</Text>
+                            <Text style={{ fontSize: 12, color: 'lightgrey' }}>- {this.state.fav_author}</Text>
+                        </View>
+                    </View>
+                </ImageBackground>
+                { this.state.comments_list.length == 0 ? (
+                    // no comments show empty state
+                    <Text>No comments found..</Text>
+                ) : (
+                    // comments available
+                    <FlatList
+                        refreshing={this.state.refresh} 
+                        data={this.state.comments_list}
+                        keyExtractor={( item, index ) => index.toString()}
+                        style={{ flex: 1, backgroundColor: '#eee'}}
+                        renderItem={({ item, index }) => (
+                            <View key={index} style={styles.commentContainer}>
+                                
+                                <TouchableOpacity>
+                                    <Image source={{ uri: `${item.authorAvatar}`}} style={{ height: 50, width: 50, borderRadius: 100, borderWidth: 1, borderColor: 'black', margin: 5 }} />
+                                </TouchableOpacity>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                                    <Text style={{ fontWeight: 'bold' }}>{this.userNameFix(item.author)}: </Text><Text>{item.comment}</Text>
+                                </View>
+                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 2, paddingRight: 4 }}>
+                                    <Text style={{ fontSize: 8, color: 'grey' }}>{item.posted}</Text>
+                                </View>
+
+                            </View>
+                        )}
+                    />
+                )}
+                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'grey', padding: 10, marginBottom: 15}} keyboardVerticalOffset={80}>
+                    <View>
+                        <TextInput 
+                            editable={true}
+                            placeholder={'Add a comment..'}
+                            onChangeText={(text) => this.setState({comment: text})}
+                            style={{ marginVertical: 10, height: 10, padding: 5, borderColor: 'grey', borderRadius: 3, backgroundColor: 'white', color: 'black' }}
+                        />
+                        <TouchableOpacity onPress={() => alert('Comment Posted')}>
+                            <Text>Post</Text>
+                        </TouchableOpacity>
+                    </View>
+                </KeyboardAvoidingView>
             </View>
         );
     }
@@ -219,6 +278,11 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginTop: 5,
         marginBottom: 5,
+    },
+    favImage: {
+        resizeMode: 'cover',
+        width: '100%',
+        height: 150,
     },
 });
 
