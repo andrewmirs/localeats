@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, Image, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header } from 'react-native-elements';
 import { auth, database, f, storage } from '../../config/config';
 import { api_key } from '../../config/google_maps_api';
@@ -239,18 +240,19 @@ class Comments extends Component {
                         )}
                     />
                 )}
-                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'lightgrey', padding: 10, marginBottom: 15 }}>
-                    <View>
+                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopColor: 'lightgrey', padding: 10, marginBottom: 15 }}>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
                         <TextInput 
                             editable={true}
                             placeholder={'Add a comment..'}
                             onChangeText={(text) => this.setState({comment: text})}
-                            style={{ marginVertical: 10, height: 50, padding: 5, borderColor: 'lightgrey', borderWidth: 1, borderRadius: 3, backgroundColor: 'white', color: 'black' }}
+                            style={{ width: "80%", height: 50, padding: 5, borderColor: 'lightgrey', borderWidth: 1, borderRadius: 3, backgroundColor: 'white', color: 'black' }}
                         />
                         <TouchableOpacity 
-                            onPress={() => alert('Comment Posted')}  
+                            onPress={() => alert('Comment Posted')}
+                            style={{ height: 50, width: 60, backgroundColor: 'darkgrey', borderRadius: 3, padding: 5, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}  
                         >
-                            <Text>Post</Text>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Post</Text>
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
