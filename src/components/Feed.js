@@ -176,13 +176,13 @@ class Feed extends Component {
                                     </ImageBackground>
                                 </View>
                                 <View style={styles.pickFooter}>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={ () => this.props.navToComments(item.id) }>
                                         <FontAwesome name={`comments-o`} size={21} color='grey' />
                                     </TouchableOpacity>
-                                    <TouchableOpacity  onPress={() => Linking.openURL(`tel:${item.phonenumber}`)}>
+                                    <TouchableOpacity  onPress={ () => Linking.openURL(`tel:${item.phonenumber}`) }>
                                         <Feather name={`phone`} size={20} color='grey' />
                                     </TouchableOpacity>
-                                    <TouchableOpacity  onPress={() => Linking.openURL(item.url) }>
+                                    <TouchableOpacity  onPress={ () => Linking.openURL(item.url) }>
                                         <Entypo name={`location-pin`} size={21} color='grey' />
                                     </TouchableOpacity>
                                 </View>
