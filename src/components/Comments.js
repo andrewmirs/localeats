@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { FlatList, Image, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header } from 'react-native-elements';
 import { auth, database, f, storage } from '../../config/config';
 import { api_key } from '../../config/google_maps_api';
+import Icon from '../../assets/images/localpick-icon.png';
 
 
 class Comments extends Component {
@@ -14,6 +16,7 @@ class Comments extends Component {
             comments_list: [],
             refresh: false,
             loading: true,
+            comment: '',
         }
 
     }
@@ -94,6 +97,7 @@ class Comments extends Component {
                     fav_photo: data.photo,
                     fav_favorite: data.favorite,
                     fav_caption: data.caption,
+                    loading: false,
                 });
             }
         }).catch(error => console.log(error));
@@ -186,10 +190,57 @@ class Comments extends Component {
         return str;
     }
 
+    postComment = () => {
+        let comment = this.state.comment;
+
+        if(comment != ''){
+            const favId = this.state.favId;
+            const userId = f.auth().currentUser.uid;
+            const commentId = this.uniqueId();
+            const dateTime = Date.now();
+            const timestamp = Math.floor(dateTime / 1000);
+
+            this.setState({
+                comment: '',
+            });
+
+            const commentObj = {
+                posted: timestamp,
+                author: userId,
+                comment: comment
+            }
+
+            database.ref('/comments/' + favId + '/' + commentId).set(commentObj);
+
+            // Reload Comment List
+            this.reloadCommentList();
+        } else {
+            return
+        }
+    }
+
+    reloadCommentList = () => {
+        this.setState({
+            comments_list: [],
+        });
+        this.fetchComments(this.state.favId);
+    }
+
     render() {
 
         return (
             <View style={{ flex: 1 }}>
+                {this.state.loading == true ? (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image 
+                            source={Icon}
+                            resizeMode='contain'
+                            style={{ height: 150, marginBottom: 30 }}
+                        />
+                        <ActivityIndicator size="large" color="#b23f2e" />
+                    </View>
+                ) : (
+                <>
                 <Header
                     leftComponent={{ icon: 'arrow-back', color: '#fff', onPress: () => this.props.navigation.goBack() }}
                     centerComponent={{ text: 'Comments', style: { color: '#fff', fontFamily: 'horizon', fontSize: 30 } }}
@@ -206,8 +257,8 @@ class Comments extends Component {
                         <View>
                          <Image source={{ uri: `${this.state.fav_author_avatar}`}} style={{ height: 85, width: 85, borderRadius: 100, borderWidth: 2, borderColor: 'black', marginLeft: 10 }} />
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                            <Text style={{ fontSize: 18, color: 'white' }}>"{this.state.fav_caption}"</Text>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, paddingLeft: 15 }}>
+                            <Text style={{ fontSize: 15, color: 'white' }}>"{this.state.fav_caption}"</Text>
                             <Text style={{ fontSize: 12, color: 'lightgrey' }}>- {this.state.fav_author}</Text>
                         </View>
                     </View>
@@ -239,21 +290,26 @@ class Comments extends Component {
                         )}
                     />
                 )}
-                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopWidth: 1, borderTopColor: 'lightgrey', padding: 10, marginBottom: 15 }}>
-                    <View>
+                <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1, borderTopColor: 'lightgrey', padding: 10, marginBottom: 15 }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
                         <TextInput 
                             editable={true}
                             placeholder={'Add a comment..'}
+                            value={this.state.comment}
                             onChangeText={(text) => this.setState({comment: text})}
-                            style={{ marginVertical: 10, height: 50, padding: 5, borderColor: 'lightgrey', borderWidth: 1, borderRadius: 3, backgroundColor: 'white', color: 'black' }}
+                            style={{ width: "80%", height: 50, padding: 5, borderColor: 'lightgrey', borderWidth: 1, borderRadius: 3, backgroundColor: 'white', color: 'black' }}
                         />
                         <TouchableOpacity 
-                            onPress={() => alert('Comment Posted')}  
+                            onPress={() => this.postComment()}
+                            style={this.state.comment != '' ? styles.enabledPostButton : styles.disabledPostButton}  
+                            disabled={this.state.comment != '' ? false : true}
                         >
-                            <Text>Post</Text>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Post</Text>
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
+                </>
+                )}
             </View>
         );
     }
@@ -280,6 +336,26 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginTop: 5,
         marginBottom: 5,
+    },
+    disabledPostButton: {
+        height: 50, 
+        width: 60, 
+        backgroundColor: 'lightgrey', 
+        borderRadius: 3, 
+        padding: 5, 
+        marginLeft: 5, 
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    enabledPostButton: {
+        height: 50, 
+        width: 60, 
+        backgroundColor: 'darkgrey', 
+        borderRadius: 3, 
+        padding: 5, 
+        marginLeft: 5, 
+        justifyContent: 'center', 
+        alignItems: 'center',
     },
     favImage: {
         resizeMode: 'cover',
